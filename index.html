@@ -1,1 +1,944 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quality English Complete — 中学基礎〜IATF実務</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap');
+:root{
+  --bg:#0f1117;--bg2:#181c27;--bg3:#1e2335;--bg4:#252a3d;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.15);
+  --text:#e2e4ed;--muted:#7b8099;--faint:#4a4f6a;
+  --accent:#5b8af0;--accent2:#3ecf8e;--amber:#f5a623;--coral:#ff6b6b;--purple:#a78bfa;
+  --mono:'JetBrains Mono',monospace;--sans:'Sora',sans-serif;
+  --L1:#3ecf8e;--L2:#5b8af0;--L3:#f5a623;--L4:#ff6b6b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;min-height:100vh}
+button{cursor:pointer;font-family:var(--sans)}
+
+/* ── HEADER ── */
+.header{padding:18px 24px 0;background:var(--bg2);border-bottom:1px solid var(--border)}
+.header-top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.logo{font-family:var(--mono);font-size:12px;color:var(--accent2)}
+.header-title{font-size:17px;font-weight:600}
+.level-legend{display:flex;gap:10px;margin-left:auto;flex-wrap:wrap}
+.lbadge{font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:4px;font-weight:500}
+.l1b{background:rgba(62,207,142,0.15);color:var(--L1)}
+.l2b{background:rgba(91,138,240,0.15);color:var(--L2)}
+.l3b{background:rgba(245,166,35,0.15);color:var(--L3)}
+.l4b{background:rgba(255,107,107,0.15);color:var(--L4)}
+
+.tabs{display:flex;gap:0;overflow-x:auto}
+.tab{padding:10px 18px;font-size:13px;font-weight:500;color:var(--muted);border:none;border-bottom:2px solid transparent;background:none;white-space:nowrap;transition:all .15s}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* ── CONTENT ── */
+.content{padding:20px 24px;max-width:960px}
+.section{display:none}.section.active{display:block}
+.sec-label{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+
+/* ── FILTER BAR ── */
+.filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.fbtn{padding:5px 12px;border:1px solid var(--border2);border-radius:20px;background:none;color:var(--muted);font-size:12px;transition:all .15s}
+.fbtn:hover{border-color:var(--accent);color:var(--text)}
+.fbtn.active{background:rgba(91,138,240,0.18);border-color:var(--accent);color:var(--accent)}
+.fbtn.l1a{background:rgba(62,207,142,0.15);border-color:var(--L1);color:var(--L1)}
+.fbtn.l2a{background:rgba(91,138,240,0.15);border-color:var(--L2);color:var(--L2)}
+.fbtn.l3a{background:rgba(245,166,35,0.15);border-color:var(--L3);color:var(--L3)}
+.fbtn.l4a{background:rgba(255,107,107,0.15);border-color:var(--L4);color:var(--L4)}
+
+/* ── WORD CARDS ── */
+.word-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.word-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:border-color .15s}
+.word-card:hover{border-color:var(--border2)}
+.word-card.expanded{border-color:var(--accent)}
+.wc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px}
+.wc-word{font-family:var(--mono);font-size:15px;font-weight:500;color:var(--text)}
+.wc-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.pos-badge{font-size:10px;padding:1px 6px;border-radius:3px;background:var(--bg3);color:var(--muted)}
+.wc-ipa{font-family:var(--mono);font-size:12px;color:var(--accent2);margin-bottom:6px}
+.wc-ja{font-size:13px;color:var(--text);margin-bottom:0}
+.wc-detail{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.word-card.expanded .wc-detail{display:block}
+.wc-ex{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.8;margin-bottom:4px}
+.wc-ex-ja{font-size:12px;color:var(--faint);line-height:1.5}
+.wc-note{font-size:11px;color:var(--amber);margin-top:8px;padding:4px 8px;background:rgba(245,166,35,0.08);border-radius:4px}
+
+/* ── GRAMMAR ── */
+.grammar-list{display:flex;flex-direction:column;gap:12px}
+.grammar-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.gc-header{padding:12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;border-bottom:1px solid transparent;transition:background .1s}
+.gc-header:hover{background:var(--bg3)}
+.gc-num{font-family:var(--mono);font-size:11px;color:var(--muted);min-width:32px}
+.gc-title{font-size:14px;font-weight:500}
+.gc-level{margin-left:auto;font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:4px}
+.gc-toggle{font-size:12px;color:var(--muted);margin-left:8px;transition:transform .2s}
+.grammar-card.open .gc-toggle{transform:rotate(180deg)}
+.grammar-card.open .gc-header{border-bottom-color:var(--border)}
+.gc-body{display:none;padding:16px}
+.grammar-card.open .gc-body{display:block}
+.gc-point{font-size:13px;color:var(--muted);line-height:1.8;margin-bottom:14px}
+
+/* color-coded sentence analysis */
+.sent-analysis{margin-bottom:14px}
+.sent-raw{font-family:var(--mono);font-size:13px;line-height:2.2;margin-bottom:6px}
+.s{color:#7ba5f5;border-bottom:2px solid #7ba5f5} /* subject */
+.v{color:#ff8a8a;border-bottom:2px solid #ff8a8a} /* verb */
+.o{color:#5dd6a0;border-bottom:2px solid #5dd6a0} /* object/complement */
+.m{color:#f5b84a;border-bottom:2px solid #f5b84a} /* modifier */
+.c{color:#c4b5fd;border-bottom:2px solid #c4b5fd} /* connector/clause */
+.sent-legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+.leg-item{font-size:11px;display:flex;align-items:center;gap:4px}
+.leg-dot{width:8px;height:8px;border-radius:2px}
+.sent-ja{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.6}
+.gc-pattern{font-family:var(--mono);font-size:12px;padding:8px 12px;background:var(--bg3);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;color:var(--accent2);margin-bottom:12px}
+.gc-caution{font-size:12px;color:var(--amber);padding:8px 10px;background:rgba(245,166,35,0.08);border-radius:6px;margin-top:10px}
+
+/* ── SENTENCE PATTERNS ── */
+.sent-grid{display:flex;flex-direction:column;gap:12px}
+.sent-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px}
+.sent-card-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.sent-type{font-size:11px;padding:2px 8px;border-radius:4px;font-weight:500}
+.sent-full{font-family:var(--mono);font-size:13px;line-height:2.4;margin-bottom:6px}
+.sent-ipa-row{font-family:var(--mono);font-size:11px;color:var(--accent2);margin-bottom:8px;line-height:1.8}
+.sent-translation{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.6}
+.sent-breakdown{background:var(--bg3);border-radius:6px;padding:10px 12px;margin-top:8px}
+.sb-title{font-size:11px;color:var(--faint);margin-bottom:6px}
+.sb-row{display:flex;gap:8px;font-size:12px;margin-bottom:3px;align-items:flex-start}
+.sb-part{font-family:var(--mono);font-weight:500;min-width:90px}
+.sb-role{color:var(--muted);line-height:1.5}
+
+/* ── TEMPLATES (reused) ── */
+.tmpl-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.tbtn{padding:5px 12px;border:1px solid var(--border2);border-radius:6px;background:none;color:var(--muted);font-size:12px;transition:all .15s}
+.tbtn:hover{border-color:var(--accent);color:var(--text)}
+.tbtn.active{background:rgba(91,138,240,0.15);border-color:var(--accent);color:var(--accent)}
+.tview{display:none}.tview.active{display:block}
+.tbox{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.tbox-head{padding:11px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.tbox-name{font-size:13px;font-weight:500}
+.copy-btn{padding:3px 10px;border:1px solid var(--border2);border-radius:5px;background:none;color:var(--muted);font-size:11px;transition:all .15s}
+.copy-btn:hover{border-color:var(--accent2);color:var(--accent2)}
+.tbox-body{padding:16px}
+.tb-blk{margin-bottom:14px}
+.tb-lbl{font-family:var(--mono);font-size:10px;color:var(--accent2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
+.tb-text{font-family:var(--mono);font-size:12px;color:var(--text);line-height:1.9;background:var(--bg3);border-radius:6px;padding:10px 12px;border-left:3px solid var(--accent);white-space:pre-wrap}
+.tf{color:var(--amber);font-style:italic}
+.tb-note{font-size:11px;color:var(--muted);margin-top:5px;padding-left:4px}
+
+/* ── FLASHCARD ── */
+.fc-controls{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.fc-area{display:flex;flex-direction:column;align-items:center;gap:14px}
+.flashcard{width:100%;max-width:580px;min-height:210px;background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:24px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:border-color .2s,transform .15s;position:relative;user-select:none}
+.flashcard:hover{border-color:var(--accent);transform:translateY(-2px)}
+.flashcard.revealed{border-color:var(--accent2)}
+.fc-cat{position:absolute;top:12px;left:14px;font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:4px}
+.fc-lv{position:absolute;top:12px;right:14px;font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:4px}
+.fc-en{font-family:var(--mono);font-size:15px;font-weight:500;color:var(--text);line-height:1.6;margin-bottom:4px}
+.fc-ipa{font-family:var(--mono);font-size:12px;color:var(--accent2);margin-bottom:8px}
+.fc-hint{font-size:11px;color:var(--muted);margin-top:10px}
+.fc-back{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);width:100%;display:none;text-align:left}
+.fc-back.show{display:block}
+.fc-ja{font-size:14px;color:var(--accent2);line-height:1.7;margin-bottom:8px;text-align:center}
+.fc-usage{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.7;background:var(--bg3);border-radius:6px;padding:8px 10px}
+.fc-nav{display:flex;align-items:center;gap:14px}
+.nav-btn{padding:7px 18px;border:1px solid var(--border2);border-radius:8px;background:none;color:var(--text);font-size:13px;transition:all .15s}
+.nav-btn:hover{background:var(--bg3);border-color:var(--accent)}
+.nav-btn:disabled{opacity:.3;cursor:not-allowed}
+.fc-counter{font-family:var(--mono);font-size:12px;color:var(--muted);min-width:60px;text-align:center}
+.prog-bar{width:100%;max-width:580px;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <span class="logo">// quality-english-complete</span>
+    <span class="header-title">品証実務英語 総合学習ツール</span>
+    <div class="level-legend">
+      <span class="lbadge l1b">L1 中学基礎</span>
+      <span class="lbadge l2b">L2 高校標準</span>
+      <span class="lbadge l3b">L3 ビジネス</span>
+      <span class="lbadge l4b">L4 IATF専門</span>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('word')">📚 単語学習</button>
+    <button class="tab" onclick="switchTab('grammar')">📐 文法解説</button>
+    <button class="tab" onclick="switchTab('sent')">🔍 文章パターン</button>
+    <button class="tab" onclick="switchTab('tmpl')">📝 テンプレート</button>
+    <button class="tab" onclick="switchTab('flash')">🃏 フラッシュカード</button>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ══════════════════════════════════════
+     TAB 1: 単語学習
+══════════════════════════════════════ -->
+<div id="sec-word" class="section active">
+<p class="sec-label">// 01 — vocabulary — tap card to expand</p>
+<div class="filter-bar" id="word-filters">
+  <button class="fbtn active" onclick="filterWords('all',this)">All</button>
+  <button class="fbtn l1a" onclick="filterWords('L1',this)">L1 基礎動詞・助動詞</button>
+  <button class="fbtn l2a" onclick="filterWords('L2',this)">L2 基本ビジネス語</button>
+  <button class="fbtn l3a" onclick="filterWords('L3',this)">L3 品質管理語</button>
+  <button class="fbtn l4a" onclick="filterWords('L4',this)">L4 IATF専門語</button>
+  <button class="fbtn" onclick="filterWords('verb',this)">動詞</button>
+  <button class="fbtn" onclick="filterWords('noun',this)">名詞</button>
+  <button class="fbtn" onclick="filterWords('adj',this)">形容詞</button>
+  <button class="fbtn" onclick="filterWords('modal',this)">助動詞</button>
+</div>
+<div class="word-grid" id="word-grid"></div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 2: 文法解説
+══════════════════════════════════════ -->
+<div id="sec-grammar" class="section">
+<p class="sec-label">// 02 — grammar points — 品証文書で使う文法構造</p>
+<div class="filter-bar">
+  <div class="sent-legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#7ba5f5"></div><span style="color:#7ba5f5">S 主語</span></div>
+    <div class="leg-item"><div class="leg-dot" style="background:#ff8a8a"></div><span style="color:#ff8a8a">V 動詞</span></div>
+    <div class="leg-item"><div class="leg-dot" style="background:#5dd6a0"></div><span style="color:#5dd6a0">O 目的語</span></div>
+    <div class="leg-item"><div class="leg-dot" style="background:#f5b84a"></div><span style="color:#f5b84a">M 修飾語</span></div>
+    <div class="leg-item"><div class="leg-dot" style="background:#c4b5fd"></div><span style="color:#c4b5fd">C 接続・節</span></div>
+  </div>
+</div>
+<div class="grammar-list" id="grammar-list"></div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 3: 文章パターン
+══════════════════════════════════════ -->
+<div id="sec-sent" class="section">
+<p class="sec-label">// 03 — sentence patterns with IPA + structure breakdown</p>
+<div class="filter-bar" id="sent-filters">
+  <button class="fbtn active" onclick="filterSents('all',this)">All</button>
+  <button class="fbtn" onclick="filterSents('csr',this)">CSR読解</button>
+  <button class="fbtn" onclick="filterSents('8d',this)">8D報告</button>
+  <button class="fbtn" onclick="filterSents('audit',this)">監査所見</button>
+  <button class="fbtn" onclick="filterSents('change',this)">変更通知</button>
+  <button class="fbtn" onclick="filterSents('email',this)">メール</button>
+</div>
+<div class="sent-grid" id="sent-grid"></div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 4: テンプレート
+══════════════════════════════════════ -->
+<div id="sec-tmpl" class="section">
+<p class="sec-label">// 04 — fill-in templates</p>
+<div class="tmpl-tabs">
+  <button class="tbtn active" onclick="showT('8d')">8D報告書</button>
+  <button class="tbtn" onclick="showT('cn')">変更通知</button>
+  <button class="tbtn" onclick="showT('nc')">NC所見</button>
+  <button class="tbtn" onclick="showT('ofi')">OFI所見</button>
+  <button class="tbtn" onclick="showT('mail')">メール</button>
+</div>
+<div id="t-8d" class="tview active"><div class="tbox">
+  <div class="tbox-head"><span class="tbox-name">8D Corrective Action Report</span><button class="copy-btn" onclick="copyT('t-8d-content')">Copy</button></div>
+  <div class="tbox-body" id="t-8d-content">
+    <div class="tb-blk"><div class="tb-lbl">D1 — Team</div><div class="tb-text">Champion: <span class="tf">[Manager / 部門]</span>
+Team Leader: <span class="tf">[Your name]</span>
+Members: <span class="tf">[QA, Production, Engineering]</span></div></div>
+    <div class="tb-blk"><div class="tb-lbl">D2 — Problem Description</div><div class="tb-text">What: <span class="tf">[不具合内容]</span>
+Where: Found at <span class="tf">[発見場所]</span>
+When: First reported on <span class="tf">[日付]</span>
+How many: <span class="tf">[不良数 / 影響ロット数]</span></div></div>
+    <div class="tb-blk"><div class="tb-lbl">D3 — Containment (24hr)</div><div class="tb-text">1. Isolated all suspect parts at <span class="tf">[場所]</span> on <span class="tf">[日時]</span>.
+2. Sorted <span class="tf">[数量]</span> parts. Result: <span class="tf">[OK数 / NG数]</span>.
+3. No nonconforming parts remain in transit.
+Effectiveness verified by: <span class="tf">[確認者]</span></div></div>
+    <div class="tb-blk"><div class="tb-lbl">D4 — Root Cause</div><div class="tb-text">Occurrence cause:
+  Why 1→2→3→4: <span class="tf">[なぜなぜ展開]</span>
+  Root cause: <span class="tf">[根本原因]</span>
+Escape cause:
+  Root cause: <span class="tf">[流出根本原因]</span></div><div class="tb-note">※ 発生原因と流出原因は必ず分ける</div></div>
+    <div class="tb-blk"><div class="tb-lbl">D5–D6 — Actions</div><div class="tb-text">For occurrence: <span class="tf">[恒久対策]</span>  Owner: <span class="tf">[担当]</span>  By: <span class="tf">[日付]</span>
+For escape: <span class="tf">[流出防止策]</span>  Owner: <span class="tf">[担当]</span>  By: <span class="tf">[日付]</span>
+Documents updated: CP Rev.<span class="tf">[No]</span>, FMEA Rev.<span class="tf">[No]</span></div></div>
+    <div class="tb-blk"><div class="tb-lbl">D7 — Lessons Learned</div><div class="tb-text">Similar processes reviewed: <span class="tf">[水平展開先]</span>
+Actions: <span class="tf">[内容]</span></div></div>
+    <div class="tb-blk"><div class="tb-lbl">D8 — Closure</div><div class="tb-text">Closed on <span class="tf">[日付]</span>. Approved by: <span class="tf">[責任者名]</span>
+All corrective actions verified as effective.</div></div>
+  </div>
+</div></div>
+
+<div id="t-cn" class="tview"><div class="tbox">
+  <div class="tbox-head"><span class="tbox-name">4M Change Notification</span><button class="copy-btn" onclick="copyT('t-cn-content')">Copy</button></div>
+  <div class="tbox-body" id="t-cn-content">
+    <div class="tb-blk"><div class="tb-lbl">Header</div><div class="tb-text">CN No.: <span class="tf">[CN-2024-XXX]</span> | Supplier: <span class="tf">[自社名]</span> | Customer: <span class="tf">[顧客名]</span>
+Part No.: <span class="tf">[品番]</span> | Date: <span class="tf">[日付]</span> | Target: <span class="tf">[希望実施日]</span></div></div>
+    <div class="tb-blk"><div class="tb-lbl">Change Description</div><div class="tb-text">Category: <span class="tf">[Machine / Method / Material / Man]</span>
+Current: <span class="tf">[現状]</span>
+Proposed: <span class="tf">[変更後]</span>
+Reason: <span class="tf">[理由]</span></div></div>
+    <div class="tb-blk"><div class="tb-lbl">Impact Assessment</div><div class="tb-text">Product quality: <span class="tf">[None / Yes — describe]</span>
+Control Plan parameters: <span class="tf">[None / CP will be revised]</span>
+Special Characteristics: <span class="tf">[None / Yes — describe]</span>
+Validation plan: <span class="tf">[試生産数・検査内容・判定基準]</span></div></div>
+    <div class="tb-blk"><div class="tb-lbl">Request</div><div class="tb-text">We kindly request your approval by <span class="tf">[回答期限]</span>.
+Contact: <span class="tf">[氏名 / Email / Tel]</span></div></div>
+  </div>
+</div></div>
+
+<div id="t-nc" class="tview"><div class="tbox">
+  <div class="tbox-head"><span class="tbox-name">Audit Finding — Nonconformity (NC)</span><button class="copy-btn" onclick="copyT('t-nc-content')">Copy</button></div>
+  <div class="tbox-body" id="t-nc-content">
+    <div class="tb-blk"><div class="tb-lbl">Header</div><div class="tb-text">Finding No.: <span class="tf">[NC-01]</span> | Clause: IATF 16949 <span class="tf">[条項番号]</span> | Class: <span class="tf">[Minor/Major]</span></div></div>
+    <div class="tb-blk"><div class="tb-lbl">Statement</div><div class="tb-text">Objective evidence shows that <span class="tf">[具体的な事実]</span>.
+This does not conform to clause <span class="tf">[条項]</span>, which requires:
+"<span class="tf">[条項の要求内容]</span>"</div><div class="tb-note">※ 事実のみ。意見・推測を入れない</div></div>
+    <div class="tb-blk"><div class="tb-lbl">Evidence</div><div class="tb-text">- <span class="tf">[記録名・文書番号]</span>
+- Interview with <span class="tf">[役職・氏名]</span> on <span class="tf">[日付]</span></div></div>
+    <div class="tb-blk"><div class="tb-lbl">Required Action</div><div class="tb-text">Submit corrective action plan by <span class="tf">[日付]</span> addressing:
+1. Root cause  2. Corrective action  3. Evidence of implementation</div></div>
+  </div>
+</div></div>
+
+<div id="t-ofi" class="tview"><div class="tbox">
+  <div class="tbox-head"><span class="tbox-name">Audit Finding — OFI</span><button class="copy-btn" onclick="copyT('t-ofi-content')">Copy</button></div>
+  <div class="tbox-body" id="t-ofi-content">
+    <div class="tb-blk"><div class="tb-lbl">OFI Statement</div><div class="tb-text">During the audit, it was observed that <span class="tf">[観察事実]</span>.
+While this does not constitute a nonconformity, the audit team suggests that <span class="tf">[改善方向]</span> could further strengthen the QMS.</div><div class="tb-note">※ OFIはsuggestion。"shall"は使わない。"may / could / consider"を使う</div></div>
+    <div class="tb-blk"><div class="tb-lbl">Potential Benefit</div><div class="tb-text">- <span class="tf">[期待効果1]</span>
+- <span class="tf">[期待効果2]</span></div></div>
+  </div>
+</div></div>
+
+<div id="t-mail" class="tview"><div class="tbox">
+  <div class="tbox-head"><span class="tbox-name">Email Templates — 5 situations</span></div>
+  <div class="tbox-body">
+    <div class="tb-blk"><div class="tb-lbl">① 不具合第一報</div><div class="tb-text">Subject: [URGENT] Quality Issue — Part No. <span class="tf">[品番]</span>
+Dear <span class="tf">[SQE名]</span>,
+We notify you of a quality issue at <span class="tf">[場所]</span> on <span class="tf">[日付]</span>.
+Issue: <span class="tf">[内容]</span> | Qty: <span class="tf">[数量]</span>
+Containment: <span class="tf">[処置内容]</span>
+Full 8D by <span class="tf">[日付]</span>. Please advise if immediate action is required.
+Best regards, <span class="tf">[氏名/役職]</span></div></div>
+    <div class="tb-blk"><div class="tb-lbl">② 変更事前申請</div><div class="tb-text">Subject: 4M Change — Prior Approval Request — <span class="tf">[品番]</span>
+Dear <span class="tf">[SQE名]</span>,
+We notify you of a planned change and request prior approval.
+Change: <span class="tf">[内容]</span> | Planned date: <span class="tf">[日付]</span>
+Please see attached CN-<span class="tf">[番号]</span> and reply by <span class="tf">[期限]</span>.
+Best regards, <span class="tf">[氏名/役職]</span></div></div>
+    <div class="tb-blk"><div class="tb-lbl">③ CSR解釈確認</div><div class="tb-text">Subject: Clarification — CSR Clause <span class="tf">[番号]</span>
+Dear <span class="tf">[SQE名]</span>,
+We reviewed CSR clause <span class="tf">[番号]</span> and concluded <span class="tf">[社内結論]</span>.
+As this is a first occurrence, we request confirmation of our interpretation.
+Question: <span class="tf">[具体的な質問]</span>
+Best regards, <span class="tf">[氏名/役職]</span></div></div>
+    <div class="tb-blk"><div class="tb-lbl">④ 監査日程調整</div><div class="tb-text">Subject: Supplier Audit Scheduling — <span class="tf">[会社名]</span>
+Dear <span class="tf">[担当者]</span>,
+We would like to schedule a quality audit.
+Proposed: <span class="tf">[第一候補 / 第二候補]</span> | Scope: <span class="tf">[範囲]</span> | Duration: <span class="tf">[時間]</span>
+Please confirm or suggest alternatives.
+Best regards, <span class="tf">[氏名/役職/会社]</span></div></div>
+    <div class="tb-blk"><div class="tb-lbl">⑤ 是正処置フォロー</div><div class="tb-text">Subject: Follow-up — 8D No. <span class="tf">[番号]</span>
+Dear <span class="tf">[担当者]</span>,
+This follows up on the corrective action for the issue on <span class="tf">[日付]</span>.
+Actions due by <span class="tf">[日付]</span>: <span class="tf">[アクション内容]</span>
+Please provide a status update at your earliest convenience.
+Best regards, <span class="tf">[氏名/役職]</span></div></div>
+  </div>
+</div></div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TAB 5: フラッシュカード
+══════════════════════════════════════ -->
+<div id="sec-flash" class="section">
+<p class="sec-label">// 05 — flashcards — space: flip / ← →: navigate</p>
+<div class="fc-controls" id="fc-filters">
+  <button class="fbtn active" onclick="fcFilter('all',this)">All</button>
+  <button class="fbtn l1a" onclick="fcFilter('L1',this)">L1基礎</button>
+  <button class="fbtn l2a" onclick="fcFilter('L2',this)">L2標準</button>
+  <button class="fbtn l3a" onclick="fcFilter('L3',this)">L3品質</button>
+  <button class="fbtn l4a" onclick="fcFilter('L4',this)">L4 IATF</button>
+  <button class="fbtn" onclick="fcShuffle()">🔀 Shuffle</button>
+</div>
+<div class="fc-area">
+  <div class="prog-bar"><div class="prog-fill" id="fcprog"></div></div>
+  <div class="flashcard" id="flashcard" onclick="fcReveal()">
+    <span class="fc-cat" id="fc-cat"></span>
+    <span class="fc-lv" id="fc-lv"></span>
+    <div class="fc-en" id="fc-en"></div>
+    <div class="fc-ipa" id="fc-ipa"></div>
+    <div class="fc-hint">タップして意味を確認</div>
+    <div class="fc-back" id="fc-back">
+      <div class="fc-ja" id="fc-ja"></div>
+      <div class="fc-usage" id="fc-usage"></div>
+    </div>
+  </div>
+  <div class="fc-nav">
+    <button class="nav-btn" id="fc-prev" onclick="fcPrev()">← 前へ</button>
+    <span class="fc-counter" id="fc-counter">1 / 1</span>
+    <button class="nav-btn" id="fc-next" onclick="fcNext()">次へ →</button>
+  </div>
+</div>
+</div>
+
+</div><!-- /content -->
+
+<script>
+// ════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════
+
+const WORDS = [
+  // L1 — 助動詞
+  {w:'shall',ipa:'/ʃæl/',pos:'modal',lv:'L1',ja:'〜しなければならない（義務・強制）',
+   ex:'The supplier shall submit records.',exja:'サプライヤーは記録を提出しなければならない。',note:'CSR・IATFで最重要の助動詞。mustより強い義務。'},
+  {w:'must',ipa:'/mʌst/',pos:'modal',lv:'L1',ja:'〜しなければならない（内的義務）',
+   ex:'You must verify the evidence.',exja:'あなたは証拠を検証しなければならない。',note:'shallは規格上の義務。mustは状況的な必要性。'},
+  {w:'should',ipa:'/ʃʊd/',pos:'modal',lv:'L1',ja:'〜すべきである（推奨・提案）',
+   ex:'The team should review the FMEA.',exja:'チームはFMEAを見直すべきだ。',note:'OFIの記述では"should / may / consider"を使う。'},
+  {w:'can',ipa:'/kæn/',pos:'modal',lv:'L1',ja:'〜できる（能力・可能性）',
+   ex:'The auditor can request evidence.',exja:'監査員は証拠を要求できる。',note:'canは能力。may（許可）と区別する。'},
+  {w:'may',ipa:'/meɪ/',pos:'modal',lv:'L1',ja:'〜してよい（許可）/ 〜かもしれない（推測）',
+   ex:'The supplier may propose an alternative.',exja:'サプライヤーは代替案を提案してよい。',note:'OFIでも使う：この改善を行ってもよい。'},
+  {w:'will',ipa:'/wɪl/',pos:'modal',lv:'L1',ja:'〜するだろう／〜するつもり（意志・未来）',
+   ex:'We will submit the 8D by Friday.',exja:'金曜日までに8Dを提出します。',note:'メール・報告書で約束・予定を示す。'},
+  // L1 — Be動詞
+  {w:'is',ipa:'/ɪz/',pos:'verb',lv:'L1',ja:'〜です・〜である（三人称単数現在）',
+   ex:'The record is available.',exja:'記録は入手可能です。',note:'主語が単数（it/he/she）のとき。'},
+  {w:'are',ipa:'/ɑːr/',pos:'verb',lv:'L1',ja:'〜です・〜である（複数現在）',
+   ex:'The documents are maintained.',exja:'文書は維持されている。',note:'主語が複数（they/we/records）のとき。'},
+  {w:'was',ipa:'/wɒz/',pos:'verb',lv:'L1',ja:'〜だった（三人称単数過去）',
+   ex:'The gauge was out of calibration.',exja:'ゲージは校正期限切れだった。',note:'監査所見では過去形を多用する。'},
+  {w:'were',ipa:'/wɜːr/',pos:'verb',lv:'L1',ja:'〜だった（複数過去）',
+   ex:'Records were not available.',exja:'記録は入手できなかった。',note:'"were not"はNCの核心フレーズ。'},
+  // L1 — 基礎動詞
+  {w:'show',ipa:'/ʃəʊ/',pos:'verb',lv:'L1',ja:'示す・見せる',
+   ex:'Objective evidence shows that...',exja:'客観的証拠は〜を示している。',note:'NC記述の定番書き出し。'},
+  {w:'require',ipa:'/rɪˈkwaɪər/',pos:'verb',lv:'L1',ja:'要求する・必要とする',
+   ex:'IATF requires records to be maintained.',exja:'IATFは記録の維持を要求している。',note:'"require + O + to do"の形も重要。'},
+  {w:'find',ipa:'/faɪnd/',pos:'verb',lv:'L1',ja:'見つける・発見する',
+   ex:'No evidence was found.',exja:'証拠は見つからなかった。',note:'受動態"was found"がNCで頻出。'},
+  {w:'use',ipa:'/juːz/',pos:'verb',lv:'L1',ja:'使用する',
+   ex:'The team uses AIAG format.',exja:'チームはAIAGフォーマットを使用する。',note:''},
+  // L2 — ビジネス基本語
+  {w:'ensure',ipa:'/ɪnˈʃʊər/',pos:'verb',lv:'L2',ja:'確実にする・保証する',
+   ex:'The supplier shall ensure traceability.',exja:'サプライヤーはトレーサビリティを確実にしなければならない。',note:'shallと組み合わさって頻出する動詞。'},
+  {w:'verify',ipa:'/ˈverɪfaɪ/',pos:'verb',lv:'L2',ja:'検証する・確認する',
+   ex:'The auditor verifies objective evidence.',exja:'監査員は客観的証拠を検証する。',note:'validate（妥当性確認）と区別する。'},
+  {w:'validate',ipa:'/ˈvælɪdeɪt/',pos:'verb',lv:'L2',ja:'妥当性を確認する',
+   ex:'The process was validated before production.',exja:'プロセスは生産前に妥当性確認された。',note:'verify＝要求通りか確認。validate＝意図した用途に適しているか確認。'},
+  {w:'maintain',ipa:'/meɪnˈteɪn/',pos:'verb',lv:'L2',ja:'維持する・保持する',
+   ex:'Records shall be maintained for 3 years.',exja:'記録は3年間保持しなければならない。',note:'IATFで記録保持の要求に必ず出る。'},
+  {w:'implement',ipa:'/ˈɪmplɪment/',pos:'verb',lv:'L2',ja:'実施する・導入する',
+   ex:'The corrective action was implemented.',exja:'是正処置が実施された。',note:'D6（実施）での中心動詞。'},
+  {w:'identify',ipa:'/aɪˈdentɪfaɪ/',pos:'verb',lv:'L2',ja:'特定する・識別する',
+   ex:'The root cause was identified.',exja:'根本原因が特定された。',note:'D4の中心動詞。'},
+  {w:'submit',ipa:'/səbˈmɪt/',pos:'verb',lv:'L2',ja:'提出する',
+   ex:'Submit the 8D within 10 days.',exja:'10日以内に8Dを提出する。',note:'期限とセットで使う。'},
+  {w:'approve',ipa:'/əˈpruːv/',pos:'verb',lv:'L2',ja:'承認する',
+   ex:'Prior written approval is required.',exja:'事前書面承認が必要である。',note:'"prior written approval"はCSRの定番フレーズ。'},
+  {w:'notify',ipa:'/ˈnəʊtɪfaɪ/',pos:'verb',lv:'L2',ja:'通知する',
+   ex:'The supplier shall notify the customer.',exja:'サプライヤーは顧客に通知しなければならない。',note:'notification（名詞形）も覚える。'},
+  {w:'contain',ipa:'/kənˈteɪn/',pos:'verb',lv:'L2',ja:'封じ込める・含む',
+   ex:'Containment was completed in 2 hours.',exja:'封じ込めは2時間で完了した。',note:'D3の中心語。'},
+  {w:'prevent',ipa:'/prɪˈvent/',pos:'verb',lv:'L2',ja:'防止する・防ぐ',
+   ex:'Actions to prevent recurrence.',exja:'再発防止のための処置。',note:'preventive（予防的）形容詞形も重要。'},
+  // L2 — 名詞
+  {w:'requirement',ipa:'/rɪˈkwaɪərmənt/',pos:'noun',lv:'L2',ja:'要求事項・要件',
+   ex:'Customer Specific Requirements (CSR)',exja:'顧客固有要求事項',note:'requirementは可算名詞。複数形requirements。'},
+  {w:'evidence',ipa:'/ˈevɪdəns/',pos:'noun',lv:'L2',ja:'証拠・根拠（不可算名詞）',
+   ex:'Objective evidence was provided.',exja:'客観的証拠が提供された。',note:'不可算名詞なのでevidencesとは言わない。'},
+  {w:'procedure',ipa:'/prəˈsiːdʒər/',pos:'noun',lv:'L2',ja:'手順・手続き',
+   ex:'Follow the documented procedure.',exja:'文書化された手順に従う。',note:'process（プロセス）とprocedure（手順書）は違う。'},
+  {w:'record',ipa:'/ˈrekərd/',pos:'noun',lv:'L2',ja:'記録・記録物',
+   ex:'Calibration records must be retained.',exja:'校正記録は保持しなければならない。',note:'名詞は/ˈrekərd/、動詞は/rɪˈkɔːrd/。アクセント注意。'},
+  {w:'document',ipa:'/ˈdɒkjʊmənt/',pos:'noun',lv:'L2',ja:'文書・書類',
+   ex:'The document was not available.',exja:'文書は入手できなかった。',note:'名詞と動詞で同形。動詞は「文書化する」。'},
+  // L3 — 品質管理語
+  {w:'nonconformity',ipa:'/ˌnɒnkənˈfɔːmɪti/',pos:'noun',lv:'L3',ja:'不適合',
+   ex:'A major nonconformity was issued.',exja:'重大な不適合が発行された。',note:'Minor NC（軽微）とMajor NC（重大）の違いは影響レベル。'},
+  {w:'conformity',ipa:'/kənˈfɔːmɪti/',pos:'noun',lv:'L3',ja:'適合',
+   ex:'Conformity with IATF 16949 is required.',exja:'IATF 16949への適合が要求される。',note:'non-（非）を付けると不適合。'},
+  {w:'corrective',ipa:'/kəˈrektɪv/',pos:'adj',lv:'L3',ja:'是正の・修正の',
+   ex:'Corrective action plan submitted.',exja:'是正処置計画が提出された。',note:'corrective action（是正処置）、preventive action（予防処置）。'},
+  {w:'objective',ipa:'/əbˈdʒektɪv/',pos:'adj',lv:'L3',ja:'客観的な（形容詞）/ 目標（名詞）',
+   ex:'Objective evidence is required.',exja:'客観的証拠が必要である。',note:'"Objective evidence"は監査用語の基本。意見・推測を排除する。'},
+  {w:'effective',ipa:'/ɪˈfektɪv/',pos:'adj',lv:'L3',ja:'有効な・効果的な',
+   ex:'Corrective actions verified as effective.',exja:'是正処置の有効性が確認された。',note:'effectiveness（名詞形）も頻出。'},
+  {w:'applicable',ipa:'/ˈæplɪkəbl/',pos:'adj',lv:'L3',ja:'該当する・適用可能な',
+   ex:'Where applicable, the supplier shall...',exja:'該当する場合、サプライヤーは〜しなければならない。',note:'"where applicable"はCSRの定番条件句。'},
+  {w:'traceability',ipa:'/ˌtreɪsəˈbɪlɪti/',pos:'noun',lv:'L3',ja:'トレーサビリティ・追跡可能性',
+   ex:'Traceability of parts is ensured.',exja:'部品のトレーサビリティが確保されている。',note:'ロット番号・製造記録を紐付けできる状態。'},
+  {w:'calibration',ipa:'/ˌkælɪˈbreɪʃən/',pos:'noun',lv:'L3',ja:'校正',
+   ex:'Calibration records were not found.',exja:'校正記録が見つからなかった。',note:'IATF 7.1.5.1で最も頻繁に指摘される項目の一つ。'},
+  {w:'specification',ipa:'/ˌspesɪfɪˈkeɪʃən/',pos:'noun',lv:'L3',ja:'仕様・規格値',
+   ex:'The part meets the specification.',exja:'部品は仕様を満たしている。',note:'spec（略語）もよく使われる。'},
+  {w:'containment',ipa:'/kənˈteɪnmənt/',pos:'noun',lv:'L3',ja:'封じ込め（暫定処置）',
+   ex:'Containment action within 24 hours.',exja:'24時間以内の封じ込め処置。',note:'8DのD3。不良品の拡大を止める緊急処置。'},
+  {w:'recurrence',ipa:'/rɪˈkʌrəns/',pos:'noun',lv:'L3',ja:'再発',
+   ex:'Actions to prevent recurrence.',exja:'再発防止のための処置。',note:'recurrence prevention（再発防止）がD7の目標。'},
+  {w:'characteristic',ipa:'/ˌkærɪktəˈrɪstɪk/',pos:'noun',lv:'L3',ja:'特性',
+   ex:'Special Characteristic (SC)',exja:'特別特性',note:'SCは顧客安全・法規制に関わる特性。重点管理対象。'},
+  // L4 — IATF専門語
+  {w:'auditee',ipa:'/ˌɔːdɪˈtiː/',pos:'noun',lv:'L4',ja:'被監査者（監査を受ける側）',
+   ex:'The auditee provided records upon request.',exja:'被監査者は要求に応じて記録を提供した。',note:'auditor（監査員）との対義語。語尾-eeは"される側"。'},
+  {w:'auditee',ipa:'/ˌɔːdɪˈtiː/',pos:'noun',lv:'L4',ja:'被監査者',
+   ex:'The auditee was unable to provide evidence.',exja:'被監査者は証拠を提出できなかった。',note:''},
+  {w:'supersede',ipa:'/ˌsuːpəˈsiːd/',pos:'verb',lv:'L4',ja:'置き換える・取って代わる',
+   ex:'This CSR supersedes the previous version.',exja:'このCSRは前版に取って代わる。',note:'CSRの版管理で重要。古い版が無効になることを示す。'},
+  {w:'opportunity for improvement',ipa:'/ˌɒpəˈtjuːnɪti fər ɪmˈpruːvmənt/',pos:'noun',lv:'L4',ja:'改善の機会（OFI）',
+   ex:'The following OFI was identified.',exja:'以下の改善の機会が確認された。',note:'NCではない。義務なし。提案レベルの所見。'},
+  {w:'poka-yoke',ipa:'/ˌpəʊkəˈjəʊkeɪ/',pos:'noun',lv:'L4',ja:'ポカヨケ・エラープルーフ',
+   ex:'A poka-yoke device detects missing parts.',exja:'ポカヨケ装置が部品の欠落を検出する。',note:'日本語がそのまま国際用語になった。error-proofingとも言う。'},
+  {w:'escape point',ipa:'/ɪˈskeɪp pɔɪnt/',pos:'noun',lv:'L4',ja:'流出点（なぜ流出したか）',
+   ex:'The escape point was the final inspection.',exja:'流出点は最終検査だった。',note:'8D D4で発生原因と並んで分析する。'},
+  {w:'warrant',ipa:'/ˈwɒrənt/',pos:'noun',lv:'L4',ja:'保証書（PSW: Part Submission Warrant）',
+   ex:'The Part Submission Warrant was signed.',exja:'部品提出保証書に署名された。',note:'PPAPの中核文書。顧客への品質保証。'},
+  {w:'appraiser variation',ipa:'/əˈpreɪzər ˌveərɪˈeɪʃən/',pos:'noun',lv:'L4',ja:'評価者間ばらつき（GR&R）',
+   ex:'Appraiser variation was within 5%.',exja:'評価者間ばらつきは5%以内だった。',note:'MSAのGR&Rで分析する測定誤差の成分。'},
+  {w:'prior written approval',ipa:'/ˈpraɪər ˈrɪtən əˈpruːvəl/',pos:'noun',lv:'L4',ja:'事前書面承認',
+   ex:'Prior written approval is required before implementation.',exja:'実施前に事前書面承認が必要である。',note:'4M変更で最重要の手続き要件。'},
+];
+
+// Remove duplicate
+const uniqueWords = WORDS.filter((w,i,a)=>a.findIndex(x=>x.w===w.w&&x.lv===w.lv&&x.pos===w.pos)===i);
+
+// ════════════════════════════════════════
+// GRAMMAR DATA
+// ════════════════════════════════════════
+const GRAMMAR = [
+  {
+    num:'G1', title:'Be動詞 — is / are / was / were', lv:'L1',lvc:'l1b',
+    point:'be動詞は「〜である」「〜です」を表す。英語の文の基本。<br>現在：is（単数）/ are（複数）　過去：was（単数）/ were（複数）',
+    pattern:'主語 + be動詞 + 補語/形容詞',
+    examples:[
+      {raw:`<span class="s">The record</span> <span class="v">is</span> <span class="o">available</span>.`,ja:'記録は入手可能です。'},
+      {raw:`<span class="s">The documents</span> <span class="v">were</span> <span class="o">not maintained</span>.`,ja:'文書は維持されていなかった。（NC記述の核心パターン）'},
+    ],
+    caution:'"not"を入れると否定。"were not available"はNCの最頻出フレーズ。'
+  },
+  {
+    num:'G2', title:'助動詞 shall / must / should / may', lv:'L1',lvc:'l1b',
+    point:'助動詞は動詞の前に置いて意味を加える。CSR・IATF文書で必須。<br>shall＝規格上の義務 / must＝強い必要 / should＝推奨 / may＝許可・可能性',
+    pattern:'主語 + 助動詞 + 動詞の原形',
+    examples:[
+      {raw:`<span class="s">The supplier</span> <span class="v">shall submit</span> <span class="o">a corrective action plan</span> <span class="m">within 10 days</span>.`,ja:'サプライヤーは10日以内に是正処置計画を提出しなければならない。'},
+      {raw:`<span class="s">The audit team</span> <span class="v">should consider</span> <span class="o">implementing a digital system</span>.`,ja:'監査チームはデジタルシステムの導入を検討すべきである。（OFIの書き方）'},
+    ],
+    caution:'OFI（改善の機会）ではshall/mustは使わない。should/may/considerで書く。'
+  },
+  {
+    num:'G3', title:'受動態 — be + 過去分詞', lv:'L2',lvc:'l2b',
+    point:'「〜される・〜された」を表す形。品証文書では主語を人にしないケースが多く、受動態が頻出する。<br>能動：The auditor found evidence. → 受動：Evidence was found.',
+    pattern:'主語 + be動詞 + 過去分詞 (+ by 〜)',
+    examples:[
+      {raw:`<span class="s">Corrective actions</span> <span class="v">were implemented</span> <span class="m">by the quality team</span>.`,ja:'是正処置が品質チームにより実施された。'},
+      {raw:`<span class="s">Records</span> <span class="v">shall be maintained</span> <span class="m">for a minimum of 3 years</span>.`,ja:'記録は最低3年間保持されなければならない。'},
+    ],
+    caution:'"shall be + 過去分詞"の形で要求を書くCSR定番パターン。by以下は省略されることが多い。'
+  },
+  {
+    num:'G4', title:'関係代名詞 — which / that / where', lv:'L2',lvc:'l2b',
+    point:'名詞を後ろから修飾する節を作る。品証文書では長い要求事項や定義に多用される。<br>which/that：物・コト / who：人 / where：場所',
+    pattern:'名詞 + which/that + 動詞句',
+    examples:[
+      {raw:`<span class="s">The supplier</span> <span class="v">shall provide</span> <span class="o">evidence <span class="c">which demonstrates</span> compliance</span>.`,ja:'サプライヤーは適合を実証する証拠を提供しなければならない。'},
+      {raw:`<span class="s">Processes <span class="c">that affect</span> product quality</span> <span class="v">shall be controlled</span>.`,ja:'製品品質に影響するプロセスは管理されなければならない。'},
+    ],
+    caution:'"which states:"の後にCSRの条項を引用するパターンが監査所見でよく使われる。'
+  },
+  {
+    num:'G5', title:'接続詞・条件句 — where / when / if / in addition to', lv:'L2',lvc:'l2b',
+    point:'CSRで「条件付きの要求」や「上乗せ要求」を表現するときに使う。<br>where applicable＝該当する場合 / in addition to＝〜に加えて',
+    pattern:'Where/When + 条件節, 主語 + shall + 動詞',
+    examples:[
+      {raw:`<span class="c">Where applicable</span>, <span class="s">the supplier</span> <span class="v">shall comply with</span> <span class="o">this CSR</span>.`,ja:'該当する場合、サプライヤーはこのCSRに適合しなければならない。'},
+      {raw:`<span class="c">In addition to</span> <span class="o">IATF 16949 clause 7.1.5</span>, <span class="s">the supplier</span> <span class="v">shall register</span> <span class="o">records in the portal</span>.`,ja:'IATF 16949条項7.1.5に加えて、サプライヤーはポータルに記録を登録しなければならない。'},
+    ],
+    caution:'"in addition to"はCSRの上乗せ要求のサイン。元のIATF条項はそのまま生きている。'
+  },
+  {
+    num:'G6', title:'不定詞 — to + 動詞原形', lv:'L2',lvc:'l2b',
+    point:'目的（〜するために）や主語・目的語（〜すること）を表す。品証文書では目的を示すin order toが重要。',
+    pattern:'in order to + 動詞原形（〜するために）',
+    examples:[
+      {raw:`<span class="s">Records</span> <span class="v">are maintained</span> <span class="c">in order to</span> <span class="o">demonstrate compliance</span>.`,ja:'適合を実証するために記録が保持される。'},
+      {raw:`<span class="s">The purpose</span> <span class="v">is</span> <span class="c">to prevent</span> <span class="o">recurrence of the nonconformity</span>.`,ja:'目的は不適合の再発防止である。'},
+    ],
+    caution:'"in order to"は"to"だけでも同じ意味。フォーマルな文書では"in order to"を使う。'
+  },
+  {
+    num:'G7', title:'分詞・分詞構文 — -ing / -ed', lv:'L3',lvc:'l3b',
+    point:'動詞を形容詞的に使うか（分詞形容詞）、副詞節を短縮するか（分詞構文）。長い品証文書の読解に必須。<br>-ing形（能動の意味）/ -ed形（受動の意味）',
+    pattern:'名詞 + -ing/-ed 分詞句',
+    examples:[
+      {raw:`<span class="s">All parts</span> <span class="m">identified as nonconforming</span> <span class="v">were quarantined</span>.`,ja:'不適合と識別された全部品は隔離された。'},
+      {raw:`<span class="s">Evidence</span> <span class="m">supporting the root cause analysis</span> <span class="v">shall be retained</span>.`,ja:'根本原因分析を裏付ける証拠は保持されなければならない。'},
+    ],
+    caution:'"including"（〜を含む）も分詞の一種。"including all documents related to..."の形が文書で頻出。'
+  },
+  {
+    num:'G8', title:'It構文・形式主語 — It is ... that/to', lv:'L3',lvc:'l3b',
+    point:'長い主語を後ろに回す構文。フォーマルな文書・メールで自然な英語に見せるために使う。',
+    pattern:'It + be + 形容詞 + that節 / to不定詞',
+    examples:[
+      {raw:`<span class="s">It</span> <span class="v">is required</span> <span class="c">that</span> <span class="o">all records be submitted within 30 days</span>.`,ja:'全記録は30日以内に提出されることが要求されている。'},
+      {raw:`<span class="s">It</span> <span class="v">was observed</span> <span class="c">that</span> <span class="o">calibration records were missing</span>.`,ja:'校正記録が欠落していることが観察された。'},
+    ],
+    caution:'"It was observed that..."はOFI・監査所見の書き出しパターン。"It was noted that..."も同様。'
+  },
+];
+
+// ════════════════════════════════════════
+// SENTENCE PATTERNS DATA
+// ════════════════════════════════════════
+const SENTS = [
+  {cat:'csr', type:'CSR読解', typec:'tag-blue',
+   en:'The supplier shall submit a corrective action plan within 10 business days of notification.',
+   ipa:'ðə səˈplaɪər ʃæl səbˈmɪt ə kəˈrektɪv ˈækʃən plæn wɪˈðɪn ten ˈbɪznɪs deɪz əv ˌnəʊtɪfɪˈkeɪʃən',
+   ja:'サプライヤーは通知から10営業日以内に是正処置計画を提出しなければならない。',
+   html:`<span class="s">The supplier</span> <span class="v">shall submit</span> <span class="o">a corrective action plan</span> <span class="m">within 10 business days of notification</span>.`,
+   breakdown:[
+     {part:'The supplier',color:'#7ba5f5',role:'S（主語）— 誰が行動するか'},
+     {part:'shall submit',color:'#ff8a8a',role:'V（述語）— shall＝義務の助動詞 + submit（提出する）'},
+     {part:'a corrective action plan',color:'#5dd6a0',role:'O（目的語）— 何を提出するか'},
+     {part:'within 10 business days of notification',color:'#f5b84a',role:'M（修飾語）— いつまでに'},
+   ]},
+  {cat:'csr', type:'CSR読解', typec:'tag-blue',
+   en:'In addition to the requirements of IATF 16949 clause 7.1.5.1, the supplier shall also register calibration records in the SQP portal.',
+   ipa:'ɪn əˈdɪʃən tuː ðə rɪˈkwaɪərments əv ˌaɪˌeɪˌtiːˈef klɔːz ˈsevən ˈpɔɪnt wʌn ˈfaɪv ˈpɔɪnt wʌn ðə səˈplaɪər ʃæl ˈɔːlsəʊ ˈredʒɪstər ˌkælɪˈbreɪʃən ˈrekərdz ɪn ðə pɔːtl',
+   ja:'IATF 16949 条項7.1.5.1の要求に加えて、サプライヤーはSQPポータルへの校正記録登録も行わなければならない。',
+   html:`<span class="c">In addition to the requirements of IATF 16949 clause 7.1.5.1</span>, <span class="s">the supplier</span> <span class="v">shall also register</span> <span class="o">calibration records</span> <span class="m">in the SQP portal</span>.`,
+   breakdown:[
+     {part:'In addition to...',color:'#c4b5fd',role:'C（接続句）— 上乗せ要求のサイン。元のIATF条項は生きている'},
+     {part:'the supplier',color:'#7ba5f5',role:'S（主語）'},
+     {part:'shall also register',color:'#ff8a8a',role:'V — shall＋also＋register。"also"で上乗せを強調'},
+     {part:'calibration records',color:'#5dd6a0',role:'O（目的語）'},
+     {part:'in the SQP portal',color:'#f5b84a',role:'M（場所の修飾語）'},
+   ]},
+  {cat:'audit', type:'監査所見', typec:'tag-purple',
+   en:'Objective evidence shows that calibration records for gauge A-012 were not available during the audit.',
+   ipa:'əbˈdʒektɪv ˈevɪdəns ʃəʊz ðæt ˌkælɪˈbreɪʃən ˈrekərdz fər ɡeɪdʒ eɪ ˈzɪərəʊ wʌn tuː wɜːr nɒt əˈveɪləbl ˈdjʊərɪŋ ðə ˈɔːdɪt',
+   ja:'客観的証拠によれば、ゲージA-012の校正記録は監査中に入手できなかった。',
+   html:`<span class="s">Objective evidence</span> <span class="v">shows</span> <span class="c">that</span> <span class="o">calibration records for gauge A-012</span> <span class="v">were not available</span> <span class="m">during the audit</span>.`,
+   breakdown:[
+     {part:'Objective evidence',color:'#7ba5f5',role:'S — NC記述の定番書き出し。意見でなく証拠が主語'},
+     {part:'shows',color:'#ff8a8a',role:'V — 主節の動詞'},
+     {part:'that',color:'#c4b5fd',role:'C — 接続詞。that節（従属節）を導く'},
+     {part:'calibration records for gauge A-012',color:'#5dd6a0',role:'that節のS（主語）— 具体的な記録名'},
+     {part:'were not available',color:'#ff8a8a',role:'that節のV — be動詞過去形＋not＋available'},
+     {part:'during the audit',color:'#f5b84a',role:'M（時間の修飾語）— 監査中という時点'},
+   ]},
+  {cat:'audit', type:'監査所見', typec:'tag-purple',
+   en:'This does not conform to the requirement of IATF 16949 clause 7.1.5.1, which states that calibration records shall be retained.',
+   ipa:'ðɪs dʌz nɒt kənˈfɔːm tuː ðə rɪˈkwaɪərmənt əv ˈaɪˌeɪˌtiːˈef klɔːz ˈsevən ˈpɔɪnt wʌn ˈfaɪv ˈpɔɪnt wʌn wɪtʃ steɪts ðæt ˌkælɪˈbreɪʃən ˈrekərdz ʃæl bi rɪˈteɪnd',
+   ja:'これはIATF 16949 条項7.1.5.1の要求事項に適合していない。当該条項は校正記録を保持すべきと規定している。',
+   html:`<span class="s">This</span> <span class="v">does not conform to</span> <span class="o">the requirement of IATF 16949 clause 7.1.5.1</span>, <span class="c">which states that</span> <span class="o">calibration records shall be retained</span>.`,
+   breakdown:[
+     {part:'This',color:'#7ba5f5',role:'S — 前文の事実（証拠）を指す代名詞'},
+     {part:'does not conform to',color:'#ff8a8a',role:'V — 不適合を宣言する動詞句。"conform to"＝適合する'},
+     {part:'the requirement of IATF 16949 clause 7.1.5.1',color:'#5dd6a0',role:'O — どの条項に不適合か'},
+     {part:'which states that...',color:'#c4b5fd',role:'C — 関係代名詞節。条項の内容を引用する定番パターン'},
+   ]},
+  {cat:'8d', type:'8D報告', typec:'tag-coral',
+   en:'The root cause was identified as insufficient incoming inspection of raw materials.',
+   ipa:'ðə ruːt kɔːz wɒz aɪˈdentɪfaɪd æz ɪnˈsʌfɪʃənt ˈɪnkʌmɪŋ ɪnˈspekʃən əv rɔː məˈtɪərɪəlz',
+   ja:'根本原因は原材料の受入検査の不十分さと特定された。',
+   html:`<span class="s">The root cause</span> <span class="v">was identified</span> <span class="m">as</span> <span class="o">insufficient incoming inspection of raw materials</span>.`,
+   breakdown:[
+     {part:'The root cause',color:'#7ba5f5',role:'S — D4の主役。これが文の主語'},
+     {part:'was identified',color:'#ff8a8a',role:'V — 受動態。identify（特定する）の過去受動形'},
+     {part:'as',color:'#c4b5fd',role:'C — 「〜として」を示す前置詞。was identified asで定番'},
+     {part:'insufficient incoming inspection of raw materials',color:'#5dd6a0',role:'O — 根本原因の内容。insufficientは「不十分な」'},
+   ]},
+  {cat:'8d', type:'8D報告', typec:'tag-coral',
+   en:'Containment actions were completed within 24 hours, and all suspect parts were isolated at the warehouse.',
+   ipa:'kənˈteɪnmənt ˈækʃənz wɜː kəmˈpliːtɪd wɪˈðɪn ˈtwenti fɔːr ˈaʊərz ænd ɔːl səˈspekt pɑːts wɜː ˈaɪsəleɪtɪd æt ðə ˈweəhaʊs',
+   ja:'封じ込め処置は24時間以内に完了し、全疑義品は倉庫で隔離された。',
+   html:`<span class="s">Containment actions</span> <span class="v">were completed</span> <span class="m">within 24 hours</span>, <span class="c">and</span> <span class="s">all suspect parts</span> <span class="v">were isolated</span> <span class="m">at the warehouse</span>.`,
+   breakdown:[
+     {part:'Containment actions',color:'#7ba5f5',role:'S1 — 第一文の主語'},
+     {part:'were completed',color:'#ff8a8a',role:'V1 — 受動態過去。complete（完了する）'},
+     {part:'within 24 hours',color:'#f5b84a',role:'M — 期限を明示。D3では時間の明示が必須'},
+     {part:'and',color:'#c4b5fd',role:'C — 等位接続詞。二つの完了事項を並列'},
+     {part:'all suspect parts',color:'#7ba5f5',role:'S2 — 第二文の主語。suspect＝疑義のある'},
+     {part:'were isolated',color:'#ff8a8a',role:'V2 — 隔離された（受動態）'},
+   ]},
+  {cat:'change', type:'変更通知', typec:'tag-amber',
+   en:'We hereby notify you of a planned change to the conveyor system and kindly request your prior written approval.',
+   ipa:'wiː ˈhɪəbaɪ nəʊˈtaɪ juː əv ə plænd tʃeɪndʒ tuː ðə kənˈveɪər ˈsɪstəm ænd ˈkaɪndli rɪˈkwest jɔːr ˈpraɪər ˈrɪtən əˈpruːvəl',
+   ja:'コンベアシステムへの計画的変更をここに通知し、事前書面承認をお願い申し上げます。',
+   html:`<span class="s">We</span> <span class="v">hereby notify</span> <span class="o">you</span> <span class="m">of a planned change to the conveyor system</span> <span class="c">and</span> <span class="v">kindly request</span> <span class="o">your prior written approval</span>.`,
+   breakdown:[
+     {part:'We',color:'#7ba5f5',role:'S — 送信者（自社）'},
+     {part:'hereby notify',color:'#ff8a8a',role:'V1 — "hereby"は「ここに正式に」という格式表現'},
+     {part:'you',color:'#5dd6a0',role:'O1（間接目的語）— 通知先（顧客）'},
+     {part:'of a planned change to...',color:'#f5b84a',role:'M — notify A of Bの構造。何を通知するか'},
+     {part:'and',color:'#c4b5fd',role:'C — 並列接続'},
+     {part:'kindly request',color:'#ff8a8a',role:'V2 — "kindly"で丁寧さを加える'},
+     {part:'your prior written approval',color:'#5dd6a0',role:'O2 — 事前書面承認。4M変更の核心要求'},
+   ]},
+  {cat:'email', type:'メール', typec:'tag-green',
+   en:'We would like to bring to your attention a quality issue identified at our facility on 15 March.',
+   ipa:'wiː wʊd laɪk tuː brɪŋ tuː jɔːr əˈtenʃən ə ˈkwɒlɪti ˈɪʃuː aɪˈdentɪfaɪd æt ˈaʊər fəˈsɪlɪti ɒn ðə ˈfɪfˈtiːnθ əv mɑːtʃ',
+   ja:'3月15日に自社施設で確認された品質問題についてご連絡申し上げます。',
+   html:`<span class="s">We</span> <span class="v">would like to bring</span> <span class="m">to your attention</span> <span class="o">a quality issue <span class="c">identified at our facility on 15 March</span></span>.`,
+   breakdown:[
+     {part:'We',color:'#7ba5f5',role:'S'},
+     {part:'would like to bring',color:'#ff8a8a',role:'V — would like to＋動詞原形。丁寧な意向表現'},
+     {part:'to your attention',color:'#f5b84a',role:'M — "bring to attention"で「注意を促す」イディオム'},
+     {part:'a quality issue',color:'#5dd6a0',role:'O — 何を知らせるか'},
+     {part:'identified at our facility on 15 March',color:'#c4b5fd',role:'C — 過去分詞句がissueを修飾。"identified"＝確認された'},
+   ]},
+];
+
+// ════════════════════════════════════════
+// FLASHCARD DATA
+// ════════════════════════════════════════
+const FCARDS = [
+  {lv:'L1',cat:'基礎',en:'The supplier shall submit records.',ipa:'/ðə səˈplaɪər ʃæl səbˈmɪt ˈrekərdz/',ja:'サプライヤーは記録を提出しなければならない。',usage:'shall＝最重要の義務助動詞。CSR・IATFで最頻出。'},
+  {lv:'L1',cat:'基礎',en:'Records were not available.',ipa:'/ˈrekərdz wɜːr nɒt əˈveɪləbl/',ja:'記録は入手できなかった。',usage:'NC記述の核心パターン。"were not + 形容詞"を覚える。'},
+  {lv:'L1',cat:'基礎',en:'The process is effective.',ipa:'/ðə ˈprəʊses ɪz ɪˈfektɪv/',ja:'プロセスは有効である。',usage:'is＝be動詞単数現在形。有効性確認の表現。'},
+  {lv:'L2',cat:'ビジネス',en:'We kindly request your prior written approval.',ipa:'/wiː ˈkaɪndli rɪˈkwest jɔːr ˈpraɪər ˈrɪtən əˈpruːvəl/',ja:'事前書面承認をお願い申し上げます。',usage:'変更通知の締めフレーズ。"kindly"で丁寧さを加える。'},
+  {lv:'L2',cat:'ビジネス',en:'Please find the attached document for your review.',ipa:'/pliːz faɪnd ðə əˈtætʃt ˈdɒkjʊmənt fɔːr jɔːr rɪˈvjuː/',ja:'ご査収のため添付文書をご確認ください。',usage:'メールの定番フレーズ。添付書類を案内するとき。'},
+  {lv:'L2',cat:'ビジネス',en:'We will submit the full 8D report by Friday.',ipa:'/wiː wɪl səbˈmɪt ðə fʊl eɪt diː rɪˈpɔːrt baɪ ˈfraɪdeɪ/',ja:'金曜日までに8Dの完全版を提出します。',usage:'メールでの約束・期限表明。will＝意志・予定。'},
+  {lv:'L3',cat:'品質',en:'Objective evidence shows that...',ipa:'/əbˈdʒektɪv ˈevɪdəns ʃəʊz ðæt/',ja:'客観的証拠によれば〜である。',usage:'NC記述の書き出しとして最重要。必ず覚える。'},
+  {lv:'L3',cat:'品質',en:'This does not conform to clause X.X.',ipa:'/ðɪs dʌz nɒt kənˈfɔːm tuː klɔːz/',ja:'これは条項X.Xに適合していない。',usage:'NCの判定宣言フレーズ。条項番号を必ず入れる。'},
+  {lv:'L3',cat:'品質',en:'Corrective actions have been verified as effective.',ipa:'/kəˈrektɪv ˈækʃənz hæv bɪːn ˈverɪfaɪd æz ɪˈfektɪv/',ja:'是正処置の有効性が確認された。',usage:'D8クローズ時の宣言フレーズ。現在完了形を使う。'},
+  {lv:'L3',cat:'品質',en:'Containment actions were completed within 24 hours.',ipa:'/kənˈteɪnmənt ˈækʃənz wɜːr kəmˈpliːtɪd wɪˈðɪn ˈtwenti fɔːr ˈaʊərz/',ja:'封じ込め処置は24時間以内に完了した。',usage:'D3の結果報告フレーズ。時間の明示が重要。'},
+  {lv:'L3',cat:'品質',en:'The root cause was identified as...',ipa:'/ðə ruːt kɔːz wɒz aɪˈdentɪfaɪd æz/',ja:'根本原因は〜と特定された。',usage:'D4の中核フレーズ。"was identified as"の受動態。'},
+  {lv:'L3',cat:'品質',en:'Lessons learned have been applied to similar processes.',ipa:'/ˈlesənz lɜːrnd hæv bɪːn əˈplaɪd tuː ˈsɪmɪlər ˈprəʊsesɪz/',ja:'得られた教訓が類似プロセスに水平展開された。',usage:'D7の水平展開報告。"lessons learned"は定番語句。'},
+  {lv:'L4',cat:'IATF',en:'In addition to the requirements of IATF 16949...',ipa:'/ɪn əˈdɪʃən tuː ðə rɪˈkwaɪərments əv/',ja:'IATF 16949の要求に加えて…',usage:'CSRの上乗せ要求のサイン。元の条項は有効のまま。'},
+  {lv:'L4',cat:'IATF',en:'Prior written approval is required before implementation.',ipa:'/ˈpraɪər ˈrɪtən əˈpruːvəl ɪz rɪˈkwaɪərd bɪˈfɔːr ˌɪmplɪmenˈteɪʃən/',ja:'実施前に事前書面承認が必要である。',usage:'4M変更管理の最重要フレーズ。承認前に動いてはいけない。'},
+  {lv:'L4',cat:'IATF',en:'The auditee was unable to provide objective evidence.',ipa:'/ðiː ˌɔːdɪˈtiː wɒz ʌnˈeɪbl tuː prəˈvaɪd əbˈdʒektɪv ˈevɪdəns/',ja:'被監査者は客観的証拠を提出できなかった。',usage:'NCを記述するときの証拠不在パターン。auditee＝被監査者。'},
+  {lv:'L4',cat:'IATF',en:'Where applicable, the supplier shall comply with this requirement.',ipa:'/wer ˈæplɪkəbl ðə səˈplaɪər ʃæl kəmˈplaɪ wɪð ðɪs rɪˈkwaɪərmənt/',ja:'該当する場合、サプライヤーはこの要求事項に適合しなければならない。',usage:'"Where applicable"はCSRで条件付き要求を示す定番句。'},
+  {lv:'L4',cat:'IATF',en:'No evidence was found to demonstrate compliance.',ipa:'/nəʊ ˈevɪdəns wɒz faʊnd tuː ˈdemənstreɪt kəmˈplaɪəns/',ja:'適合を実証する証拠が見つからなかった。',usage:'記録ゼロのNCパターン。"No evidence was found"は強いNC表現。'},
+];
+
+// ════════════════════════════════════════
+// RENDER FUNCTIONS
+// ════════════════════════════════════════
+
+// ── Word Grid ──
+function renderWords(filter='all'){
+  const grid = document.getElementById('word-grid');
+  const list = uniqueWords.filter(w=>{
+    if(filter==='all') return true;
+    if(['L1','L2','L3','L4'].includes(filter)) return w.lv===filter;
+    return w.pos===filter;
+  });
+  grid.innerHTML = list.map((w,i)=>`
+    <div class="word-card" id="wc${i}" onclick="toggleWord('wc${i}')">
+      <div class="wc-top">
+        <span class="wc-word">${w.w}</span>
+        <div class="wc-badges">
+          <span class="lbadge ${w.lv.toLowerCase()}b">${w.lv}</span>
+          <span class="pos-badge">${posLabel(w.pos)}</span>
+        </div>
+      </div>
+      <div class="wc-ipa">${w.ipa}</div>
+      <div class="wc-ja">${w.ja}</div>
+      <div class="wc-detail">
+        <div class="wc-ex">${w.ex}</div>
+        <div class="wc-ex-ja">${w.exja}</div>
+        ${w.note?`<div class="wc-note">💡 ${w.note}</div>`:''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function posLabel(p){
+  return {verb:'動詞',noun:'名詞',adj:'形容詞',modal:'助動詞'}[p]||p;
+}
+
+function toggleWord(id){
+  document.getElementById(id).classList.toggle('expanded');
+}
+
+function filterWords(f,btn){
+  document.querySelectorAll('#word-filters .fbtn').forEach(b=>b.classList.remove('active','l1a','l2a','l3a','l4a'));
+  btn.classList.add('active');
+  if(f==='L1')btn.classList.add('l1a');
+  if(f==='L2')btn.classList.add('l2a');
+  if(f==='L3')btn.classList.add('l3a');
+  if(f==='L4')btn.classList.add('l4a');
+  renderWords(f);
+}
+
+// ── Grammar ──
+function renderGrammar(){
+  document.getElementById('grammar-list').innerHTML = GRAMMAR.map((g,i)=>`
+    <div class="grammar-card" id="gc${i}">
+      <div class="gc-header" onclick="toggleGrammar('gc${i}')">
+        <span class="gc-num">${g.num}</span>
+        <span class="gc-title">${g.title}</span>
+        <span class="lbadge gc-level ${g.lvc}">${g.lv}</span>
+        <span class="gc-toggle">▾</span>
+      </div>
+      <div class="gc-body">
+        <p class="gc-point">${g.point}</p>
+        <div class="gc-pattern">${g.pattern}</div>
+        ${g.examples.map(e=>`
+          <div class="sent-analysis">
+            <div class="sent-raw">${e.raw}</div>
+            <div class="sent-ja">${e.ja}</div>
+          </div>
+        `).join('')}
+        ${g.caution?`<div class="gc-caution">⚠️ ${g.caution}</div>`:''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleGrammar(id){
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+// ── Sentences ──
+function renderSents(filter='all'){
+  const list = filter==='all' ? SENTS : SENTS.filter(s=>s.cat===filter);
+  document.getElementById('sent-grid').innerHTML = list.map(s=>`
+    <div class="sent-card">
+      <div class="sent-card-top">
+        <span class="doc-tag ${s.typec}" style="font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:4px;">${s.type}</span>
+      </div>
+      <div class="sent-full">${s.html}</div>
+      <div class="sent-legend">
+        <div class="leg-item"><div class="leg-dot" style="background:#7ba5f5"></div><span style="color:var(--muted);font-size:11px">S主語</span></div>
+        <div class="leg-item"><div class="leg-dot" style="background:#ff8a8a"></div><span style="color:var(--muted);font-size:11px">V動詞</span></div>
+        <div class="leg-item"><div class="leg-dot" style="background:#5dd6a0"></div><span style="color:var(--muted);font-size:11px">O目的語</span></div>
+        <div class="leg-item"><div class="leg-dot" style="background:#f5b84a"></div><span style="color:var(--muted);font-size:11px">M修飾</span></div>
+        <div class="leg-item"><div class="leg-dot" style="background:#c4b5fd"></div><span style="color:var(--muted);font-size:11px">C接続</span></div>
+      </div>
+      <div class="sent-ipa-row">/${s.ipa}/</div>
+      <div class="sent-translation">${s.ja}</div>
+      <div class="sent-breakdown">
+        <div class="sb-title">文構造の解析</div>
+        ${s.breakdown.map(b=>`
+          <div class="sb-row">
+            <span class="sb-part" style="color:${b.color};font-family:var(--mono);font-size:11px">${b.part}</span>
+            <span class="sb-role">${b.role}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterSents(f,btn){
+  document.querySelectorAll('#sent-filters .fbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSents(f);
+}
+
+// ── Templates ──
+function showT(name){
+  document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tview').forEach(v=>v.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('t-'+name).classList.add('active');
+}
+
+function copyT(id){
+  const el = document.getElementById(id);
+  navigator.clipboard.writeText(el.innerText).then(()=>{
+    event.target.textContent='Copied!';
+    setTimeout(()=>event.target.textContent='Copy',1500);
+  });
+}
+
+// ── Flashcards ──
+let fcFiltered = [...FCARDS];
+let fcIdx = 0;
+const lvColors = {L1:{bg:'rgba(62,207,142,0.15)',color:'var(--L1)'},L2:{bg:'rgba(91,138,240,0.15)',color:'var(--L2)'},L3:{bg:'rgba(245,166,35,0.15)',color:'var(--L3)'},L4:{bg:'rgba(255,107,107,0.15)',color:'var(--L4)'}};
+
+function fcRender(){
+  const c = fcFiltered[fcIdx];
+  const lc = lvColors[c.lv];
+  const catEl = document.getElementById('fc-cat');
+  catEl.textContent = c.cat;
+  catEl.style.background = 'rgba(91,138,240,0.15)';
+  catEl.style.color = 'var(--accent)';
+  const lvEl = document.getElementById('fc-lv');
+  lvEl.textContent = c.lv;
+  lvEl.style.background = lc.bg;
+  lvEl.style.color = lc.color;
+  document.getElementById('fc-en').textContent = c.en;
+  document.getElementById('fc-ipa').textContent = c.ipa;
+  document.getElementById('fc-ja').textContent = c.ja;
+  document.getElementById('fc-usage').textContent = '💡 '+c.usage;
+  document.getElementById('fc-back').classList.remove('show');
+  document.getElementById('flashcard').classList.remove('revealed');
+  document.getElementById('fc-counter').textContent=(fcIdx+1)+' / '+fcFiltered.length;
+  document.getElementById('fcprog').style.width=((fcIdx+1)/fcFiltered.length*100)+'%';
+  document.getElementById('fc-prev').disabled = fcIdx===0;
+  document.getElementById('fc-next').disabled = fcIdx===fcFiltered.length-1;
+}
+
+function fcReveal(){
+  const back = document.getElementById('fc-back');
+  const fc = document.getElementById('flashcard');
+  const showing = back.classList.contains('show');
+  back.classList.toggle('show',!showing);
+  fc.classList.toggle('revealed',!showing);
+}
+
+function fcNext(){if(fcIdx<fcFiltered.length-1){fcIdx++;fcRender();}}
+function fcPrev(){if(fcIdx>0){fcIdx--;fcRender();}}
+
+function fcFilter(f,btn){
+  document.querySelectorAll('#fc-filters .fbtn').forEach(b=>b.classList.remove('active','l1a','l2a','l3a','l4a'));
+  btn.classList.add('active');
+  if(f==='L1')btn.classList.add('l1a');
+  if(f==='L2')btn.classList.add('l2a');
+  if(f==='L3')btn.classList.add('l3a');
+  if(f==='L4')btn.classList.add('l4a');
+  fcFiltered = f==='all' ? [...FCARDS] : FCARDS.filter(c=>c.lv===f);
+  fcIdx=0; fcRender();
+}
+
+function fcShuffle(){
+  for(let i=fcFiltered.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [fcFiltered[i],fcFiltered[j]]=[fcFiltered[j],fcFiltered[i]];
+  }
+  fcIdx=0;fcRender();
+}
+
+// ── Tab switching ──
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('sec-'+name).classList.add('active');
+}
+
+// ── Keyboard ──
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('sec-flash').classList.contains('active')) return;
+  if(e.key==='ArrowRight') fcNext();
+  if(e.key==='ArrowLeft') fcPrev();
+  if(e.key===' '){e.preventDefault();fcReveal();}
+});
+
+// ── INIT ──
+// add doc-tag color classes inline
+const tagStyles = {
+  'tag-blue':'background:rgba(91,138,240,0.15);color:#7ba5f5',
+  'tag-green':'background:rgba(62,207,142,0.15);color:#5dd6a0',
+  'tag-amber':'background:rgba(245,166,35,0.15);color:#f5b84a',
+  'tag-coral':'background:rgba(255,107,107,0.15);color:#ff8a8a',
+  'tag-purple':'background:rgba(167,139,250,0.15);color:#c4b5fd',
+};
+renderWords();
+renderGrammar();
+renderSents();
+fcRender();
+</script>
+</body>
+</html>
 
