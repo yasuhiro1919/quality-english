@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quality English Hub — IATF実務英語</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --bg2: #181c27;
+    --bg3: #1e2335;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.15);
+    --text: #e2e4ed;
+    --muted: #7b8099;
+    --accent: #5b8af0;
+    --accent2: #3ecf8e;
+    --amber: #f5a623;
+    --coral: #ff6b6b;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Sora', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    min-height: 100vh;
+  }
+
+  .header {
+    padding: 24px 28px 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent2);
+    letter-spacing: 0.05em;
+  }
+
+  .header-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .tabs {
+    display: flex;
+    gap: 0;
+  }
+
+  .tab {
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    white-space: nowrap;
+    font-family: var(--sans);
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .content { padding: 24px 28px; max-width: 900px; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ── SECTION 1: Document Reading ── */
+  .doc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .doc-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .doc-card-header {
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .doc-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .tag-blue { background: rgba(91,138,240,0.15); color: #7ba5f5; }
+  .tag-green { background: rgba(62,207,142,0.15); color: #5dd6a0; }
+  .tag-amber { background: rgba(245,166,35,0.15); color: #f5b84a; }
+  .tag-coral { background: rgba(255,107,107,0.15); color: #ff8a8a; }
+  .tag-purple { background: rgba(167,139,250,0.15); color: #b8a2f7; }
+
+  .doc-card-title { font-size: 12px; color: var(--muted); }
+
+  .vocab-list { padding: 8px 0; }
+
+  .vocab-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 7px 14px;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+
+  .vocab-item:last-child { border-bottom: none; }
+  .vocab-item:hover { background: var(--bg3); }
+
+  .vocab-en {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    flex-shrink: 0;
+  }
+
+  .vocab-ja {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .pattern-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+
+  .pattern-title {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .pattern-en {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    line-height: 1.8;
+    margin-bottom: 6px;
+  }
+
+  .pattern-ja {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .highlight { color: var(--amber); }
+
+  /* ── SECTION 2: Writing Templates ── */
+  .template-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .tmpl-btn {
+    padding: 6px 14px;
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    background: none;
+    color: var(--muted);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: var(--sans);
+  }
+
+  .tmpl-btn:hover { border-color: var(--accent); color: var(--text); }
+  .tmpl-btn.active { background: rgba(91,138,240,0.15); border-color: var(--accent); color: var(--accent); }
+
+  .template-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .template-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .template-name { font-size: 13px; font-weight: 500; }
+
+  .copy-btn {
+    padding: 4px 12px;
+    border: 1px solid var(--border2);
+    border-radius: 5px;
+    background: none;
+    color: var(--muted);
+    font-size: 11px;
+    cursor: pointer;
+    font-family: var(--sans);
+    transition: all 0.15s;
+  }
+
+  .copy-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  .template-content { padding: 16px; }
+
+  .tmpl-block {
+    margin-bottom: 16px;
+  }
+
+  .tmpl-block-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent2);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .tmpl-text {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.9;
+    background: var(--bg3);
+    border-radius: 6px;
+    padding: 10px 12px;
+    border-left: 3px solid var(--accent);
+    white-space: pre-wrap;
+  }
+
+  .tmpl-fill {
+    color: var(--amber);
+    font-style: italic;
+  }
+
+  .tmpl-note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+    padding-left: 4px;
+  }
+
+  /* ── SECTION 3: Flashcards ── */
+  .flash-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .flash-cat {
+    padding: 5px 12px;
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    background: none;
+    color: var(--muted);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: var(--sans);
+  }
+
+  .flash-cat:hover { border-color: var(--accent); color: var(--text); }
+  .flash-cat.active { background: rgba(91,138,240,0.2); border-color: var(--accent); color: var(--accent); }
+
+  .card-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .flashcard {
+    width: 100%;
+    max-width: 560px;
+    min-height: 200px;
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    padding: 28px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.15s;
+    position: relative;
+    user-select: none;
+  }
+
+  .flashcard:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .flashcard.revealed { border-color: var(--accent2); }
+
+  .card-cat-badge {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .card-front-en {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .card-hint {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 12px;
+  }
+
+  .card-back {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    width: 100%;
+    display: none;
+  }
+
+  .card-back.show { display: block; }
+
+  .card-back-ja {
+    font-size: 14px;
+    color: var(--accent2);
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+
+  .card-back-usage {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.7;
+    background: var(--bg3);
+    border-radius: 6px;
+    padding: 8px 10px;
+    text-align: left;
+  }
+
+  .card-nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .nav-btn {
+    padding: 8px 20px;
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    background: none;
+    color: var(--text);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: var(--sans);
+  }
+
+  .nav-btn:hover { background: var(--bg3); border-color: var(--accent); }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .card-counter {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    min-width: 60px;
+    text-align: center;
+  }
+
+  .progress-bar {
+    width: 100%;
+    max-width: 560px;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.3s;
+  }
+
+  .reveal-hint {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .shuffle-btn {
+    padding: 6px 14px;
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    background: none;
+    color: var(--muted);
+    font-size: 12px;
+    cursor: pointer;
+    font-family: var(--sans);
+    transition: all 0.15s;
+  }
+
+  .shuffle-btn:hover { border-color: var(--amber); color: var(--amber); }
+
+  .tmpl-view { display: none; }
+  .tmpl-view.active { display: block; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <span class="logo">// quality-english-hub</span>
+    <span class="header-title">IATF実務英語 学習ツール</span>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('reading')">📄 ドキュメント読解</button>
+    <button class="tab" onclick="switchTab('writing')">✍️ 英文作成テンプレート</button>
+    <button class="tab" onclick="switchTab('flash')">🃏 定型フレーズ暗記</button>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ════════════════════════════════════════
+     SECTION 1: DOCUMENT READING
+════════════════════════════════════════ -->
+<div id="sec-reading" class="section active">
+
+  <p class="section-label">// 01 — vocabulary by document type</p>
+
+  <div class="doc-grid">
+
+    <div class="doc-card">
+      <div class="doc-card-header">
+        <span class="doc-tag tag-blue">CSR</span>
+        <span class="doc-card-title">Customer Specific Requirements</span>
+      </div>
+      <div class="vocab-list">
+        <div class="vocab-item"><span class="vocab-en">shall</span><span class="vocab-ja">〜しなければならない<br>（義務・強制）</span></div>
+        <div class="vocab-item"><span class="vocab-en">shall not</span><span class="vocab-ja">〜してはならない</span></div>
+        <div class="vocab-item"><span class="vocab-en">where applicable</span><span class="vocab-ja">該当する場合</span></div>
+        <div class="vocab-item"><span class="vocab-en">in addition to</span><span class="vocab-ja">〜に加えて（上乗せ要求）</span></div>
+        <div class="vocab-item"><span class="vocab-en">supersedes</span><span class="vocab-ja">〜に取って代わる（置換）</span></div>
+        <div class="vocab-item"><span class="vocab-en">prior written approval</span><span class="vocab-ja">事前書面承認</span></div>
+        <div class="vocab-item"><span class="vocab-en">retain records for</span><span class="vocab-ja">〜期間記録を保持する</span></div>
+        <div class="vocab-item"><span class="vocab-en">submit to</span><span class="vocab-ja">〜に提出する</span></div>
+      </div>
+    </div>
+
+    <div class="doc-card">
+      <div class="doc-card-header">
+        <span class="doc-tag tag-coral">8D Report</span>
+        <span class="doc-card-title">Corrective Action Report</span>
+      </div>
+      <div class="vocab-list">
+        <div class="vocab-item"><span class="vocab-en">containment action</span><span class="vocab-ja">封じ込め処置（暫定）</span></div>
+        <div class="vocab-item"><span class="vocab-en">root cause</span><span class="vocab-ja">根本原因</span></div>
+        <div class="vocab-item"><span class="vocab-en">escape point</span><span class="vocab-ja">流出点（なぜ流出したか）</span></div>
+        <div class="vocab-item"><span class="vocab-en">occurrence cause</span><span class="vocab-ja">発生原因</span></div>
+        <div class="vocab-item"><span class="vocab-en">permanent corrective action</span><span class="vocab-ja">恒久対策</span></div>
+        <div class="vocab-item"><span class="vocab-en">recurrence prevention</span><span class="vocab-ja">再発防止</span></div>
+        <div class="vocab-item"><span class="vocab-en">verified by</span><span class="vocab-ja">〜により検証済み</span></div>
+        <div class="vocab-item"><span class="vocab-en">lessons learned</span><span class="vocab-ja">水平展開・類似事例への適用</span></div>
+      </div>
+    </div>
+
+    <div class="doc-card">
+      <div class="doc-card-header">
+        <span class="doc-tag tag-amber">FMEA</span>
+        <span class="doc-card-title">Failure Mode & Effects Analysis</span>
+      </div>
+      <div class="vocab-list">
+        <div class="vocab-item"><span class="vocab-en">failure mode</span><span class="vocab-ja">故障モード（どう壊れるか）</span></div>
+        <div class="vocab-item"><span class="vocab-en">effect of failure</span><span class="vocab-ja">故障の影響</span></div>
+        <div class="vocab-item"><span class="vocab-en">severity (S)</span><span class="vocab-ja">重大度</span></div>
+        <div class="vocab-item"><span class="vocab-en">occurrence (O)</span><span class="vocab-ja">発生頻度</span></div>
+        <div class="vocab-item"><span class="vocab-en">detection (D)</span><span class="vocab-ja">検出度</span></div>
+        <div class="vocab-item"><span class="vocab-en">RPN</span><span class="vocab-ja">危険優先度（S×O×D）</span></div>
+        <div class="vocab-item"><span class="vocab-en">recommended action</span><span class="vocab-ja">推奨処置</span></div>
+        <div class="vocab-item"><span class="vocab-en">special characteristic</span><span class="vocab-ja">特別特性（SC）</span></div>
+      </div>
+    </div>
+
+    <div class="doc-card">
+      <div class="doc-card-header">
+        <span class="doc-tag tag-green">Control Plan</span>
+        <span class="doc-card-title">CP — コントロールプラン</span>
+      </div>
+      <div class="vocab-list">
+        <div class="vocab-item"><span class="vocab-en">product / process characteristic</span><span class="vocab-ja">製品／工程特性</span></div>
+        <div class="vocab-item"><span class="vocab-en">specification / tolerance</span><span class="vocab-ja">規格値／公差</span></div>
+        <div class="vocab-item"><span class="vocab-en">measurement technique</span><span class="vocab-ja">測定手法</span></div>
+        <div class="vocab-item"><span class="vocab-en">sample size / frequency</span><span class="vocab-ja">サンプル数／頻度</span></div>
+        <div class="vocab-item"><span class="vocab-en">control method</span><span class="vocab-ja">管理方法</span></div>
+        <div class="vocab-item"><span class="vocab-en">reaction plan</span><span class="vocab-ja">処置計画（異常時対応）</span></div>
+        <div class="vocab-item"><span class="vocab-en">prototype / pre-launch / production</span><span class="vocab-ja">試作／量産前／量産</span></div>
+        <div class="vocab-item"><span class="vocab-en">poka-yoke</span><span class="vocab-ja">ポカヨケ（エラープルーフ）</span></div>
+      </div>
+    </div>
+
+    <div class="doc-card">
+      <div class="doc-card-header">
+        <span class="doc-tag tag-purple">Audit</span>
+        <span class="doc-card-title">監査文書・所見</span>
+      </div>
+      <div class="vocab-list">
+        <div class="vocab-item"><span class="vocab-en">nonconformity (NC)</span><span class="vocab-ja">不適合</span></div>
+        <div class="vocab-item"><span class="vocab-en">opportunity for improvement (OFI)</span><span class="vocab-ja">改善の機会</span></div>
+        <div class="vocab-item"><span class="vocab-en">objective evidence</span><span class="vocab-ja">客観的証拠</span></div>
+        <div class="vocab-item"><span class="vocab-en">conforming / nonconforming</span><span class="vocab-ja">適合している／していない</span></div>
+        <div class="vocab-item"><span class="vocab-en">auditee</span><span class="vocab-ja">被監査者（受ける側）</span></div>
+        <div class="vocab-item"><span class="vocab-en">auditor</span><span class="vocab-ja">監査員（行う側）</span></div>
+        <div class="vocab-item"><span class="vocab-en">audit finding</span><span class="vocab-ja">監査所見</span></div>
+        <div class="vocab-item"><span class="vocab-en">closing meeting</span><span class="vocab-ja">終了会議</span></div>
+      </div>
+    </div>
+
+    <div class="doc-card">
+      <div class="doc-card-header">
+        <span class="doc-tag tag-blue">PPAP / MSA</span>
+        <span class="doc-card-title">承認・測定システム</span>
+      </div>
+      <div class="vocab-list">
+        <div class="vocab-item"><span class="vocab-en">submission level</span><span class="vocab-ja">提出レベル（1〜5）</span></div>
+        <div class="vocab-item"><span class="vocab-en">part submission warrant (PSW)</span><span class="vocab-ja">部品提出保証書</span></div>
+        <div class="vocab-item"><span class="vocab-en">capability study</span><span class="vocab-ja">工程能力調査</span></div>
+        <div class="vocab-item"><span class="vocab-en">gauge R&R</span><span class="vocab-ja">測定システム解析</span></div>
+        <div class="vocab-item"><span class="vocab-en">% contribution</span><span class="vocab-ja">測定誤差の寄与率</span></div>
+        <div class="vocab-item"><span class="vocab-en">bias / linearity / stability</span><span class="vocab-ja">偏り／直線性／安定性</span></div>
+        <div class="vocab-item"><span class="vocab-en">appraiser variation</span><span class="vocab-ja">評価者間のばらつき</span></div>
+        <div class="vocab-item"><span class="vocab-en">acceptance criteria</span><span class="vocab-ja">合否判定基準</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="section-label">// 02 — common sentence patterns to decode</p>
+
+  <div class="pattern-box">
+    <div class="pattern-title">義務・要求の読み方</div>
+    <div class="pattern-en">The supplier <span class="highlight">shall</span> submit a corrective action plan <span class="highlight">within 10 business days</span> of notification.</div>
+    <div class="pattern-ja">サプライヤーは通知から10営業日以内に是正処置計画を提出しなければならない。<br>→ 「shall」は義務。期限に注意して読む。</div>
+  </div>
+
+  <div class="pattern-box">
+    <div class="pattern-title">CSRの上乗せ要求パターン</div>
+    <div class="pattern-en"><span class="highlight">In addition to</span> the requirements of IATF 16949 clause 7.1.5.1, the supplier <span class="highlight">shall also</span> register calibration records in the SQP portal.</div>
+    <div class="pattern-ja">IATF 16949 条項7.1.5.1の要求に加えて、サプライヤーはSQPポータルへの校正記録登録も行わなければならない。<br>→ 「In addition to」= 上乗せ要求のサイン。元の条項は生きている。</div>
+  </div>
+
+  <div class="pattern-box">
+    <div class="pattern-title">FMEA所見の読み方</div>
+    <div class="pattern-en">The <span class="highlight">current controls</span> are <span class="highlight">insufficient</span> to detect the failure mode prior to reaching the customer. <span class="highlight">Detection rating</span> should be reviewed.</div>
+    <div class="pattern-ja">現在の管理方法では、顧客に到達する前に故障モードを検出するには不十分である。検出度評価の見直しが必要。<br>→ 「insufficient」「should be reviewed」→ 指摘・改善要求のサイン。</div>
+  </div>
+
+  <div class="pattern-box">
+    <div class="pattern-title">監査所見（NC）の読み方</div>
+    <div class="pattern-en"><span class="highlight">Objective evidence</span> shows that calibration records for gauge #A-012 <span class="highlight">were not available</span> during the audit. This is a <span class="highlight">nonconformity</span> against IATF 16949 clause 7.1.5.1.</div>
+    <div class="pattern-ja">客観的証拠として、ゲージ#A-012の校正記録が監査中に入手できなかった。これはIATF 16949 条項7.1.5.1に対する不適合である。<br>→ 「Objective evidence shows that...」= 証拠ベースの指摘パターン。</div>
+  </div>
+
+</div>
+
+
+<!-- ════════════════════════════════════════
+     SECTION 2: WRITING TEMPLATES
+════════════════════════════════════════ -->
+<div id="sec-writing" class="section">
+
+  <p class="section-label">// 03 — fill-in templates for common documents</p>
+
+  <div class="template-tabs">
+    <button class="tmpl-btn active" onclick="showTmpl('8d')">8D報告書</button>
+    <button class="tmpl-btn" onclick="showTmpl('change')">変更通知</button>
+    <button class="tmpl-btn" onclick="showTmpl('nc')">監査所見（NC）</button>
+    <button class="tmpl-btn" onclick="showTmpl('ofi')">監査所見（OFI）</button>
+    <button class="tmpl-btn" onclick="showTmpl('email')">メール定型文</button>
+  </div>
+
+  <!-- 8D -->
+  <div id="tmpl-8d" class="tmpl-view active">
+    <div class="template-box">
+      <div class="template-header">
+        <span class="template-name">8D Corrective Action Report — 全体構成</span>
+        <button class="copy-btn" onclick="copyTemplate('tmpl-8d-text')">Copy all</button>
+      </div>
+      <div class="template-content" id="tmpl-8d-text">
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">D1 — Team</div>
+          <div class="tmpl-text">Champion: <span class="tmpl-fill">[Manager name / 部門]</span>
+Team Leader: <span class="tmpl-fill">[Your name / 役職]</span>
+Team Members: <span class="tmpl-fill">[QA, Production, Engineering — 各担当者名]</span></div>
+        </div>
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">D2 — Problem Description</div>
+          <div class="tmpl-text">What: <span class="tmpl-fill">[不具合の内容 — 具体的に]</span>
+Where: Found at <span class="tmpl-fill">[発見場所 — customer line / incoming inspection / etc.]</span>
+When: First reported on <span class="tmpl-fill">[日付]</span>
+How many: <span class="tmpl-fill">[不良数 / 影響ロット数]</span>
+Impact: <span class="tmpl-fill">[顧客ライン停止の有無、クレーム番号等]</span></div>
+          <div class="tmpl-note">※ 5W1Hで書く。数字を必ず入れる。</div>
+        </div>
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">D3 — Containment Actions (24hr)</div>
+          <div class="tmpl-text">1. Isolated and quarantined all suspect parts at <span class="tmpl-fill">[場所]</span> on <span class="tmpl-fill">[日時]</span>.
+2. Sorted <span class="tmpl-fill">[数量]</span> parts at customer's facility. Result: <span class="tmpl-fill">[OK数 / NG数]</span>.
+3. Confirmed no further nonconforming parts in transit.
+Effectiveness verified by: <span class="tmpl-fill">[確認者・手段]</span></div>
+        </div>
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">D4 — Root Cause Analysis</div>
+          <div class="tmpl-text">Occurrence cause (Why did it happen?):
+  Why 1: <span class="tmpl-fill">[現象]</span>
+  Why 2: <span class="tmpl-fill">[なぜ1の原因]</span>
+  Why 3: <span class="tmpl-fill">[なぜ2の原因]</span>
+  Why 4: <span class="tmpl-fill">[なぜ3の原因]</span>
+  Root cause: <span class="tmpl-fill">[根本原因]</span>
+
+Escape cause (Why was it not detected?):
+  Why 1: <span class="tmpl-fill">[流出した理由]</span>
+  Root cause: <span class="tmpl-fill">[流出根本原因]</span></div>
+          <div class="tmpl-note">※ 発生原因と流出原因は必ず分けて書く。</div>
+        </div>
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">D5 — Chosen Corrective Actions</div>
+          <div class="tmpl-text">For occurrence: <span class="tmpl-fill">[恒久対策の内容]</span>
+For escape: <span class="tmpl-fill">[流出防止対策の内容]</span>
+Verification method: <span class="tmpl-fill">[どう効果確認するか]</span>
+Target completion: <span class="tmpl-fill">[日付]</span></div>
+        </div>
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">D6 — Implementation</div>
+          <div class="tmpl-text">Action 1: <span class="tmpl-fill">[対策内容]</span> — Owner: <span class="tmpl-fill">[担当者]</span> — Completed: <span class="tmpl-fill">[日付]</span>
+Action 2: <span class="tmpl-fill">[対策内容]</span> — Owner: <span class="tmpl-fill">[担当者]</span> — Completed: <span class="tmpl-fill">[日付]</span>
+Documents updated: Control Plan Rev.<span class="tmpl-fill">[番号]</span>, FMEA Rev.<span class="tmpl-fill">[番号]</span></div>
+        </div>
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">D7 — Preventive Actions (Lessons Learned)</div>
+          <div class="tmpl-text">Similar processes / products reviewed: <span class="tmpl-fill">[水平展開先]</span>
+Actions taken: <span class="tmpl-fill">[内容]</span>
+QMS documents updated: <span class="tmpl-fill">[更新した文書一覧]</span></div>
+        </div>
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">D8 — Team Recognition</div>
+          <div class="tmpl-text">This 8D report is approved and closed on <span class="tmpl-fill">[日付]</span>.
+Approved by: <span class="tmpl-fill">[品質管理責任者名・署名]</span>
+All corrective actions have been verified as effective.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change Notification -->
+  <div id="tmpl-change" class="tmpl-view">
+    <div class="template-box">
+      <div class="template-header">
+        <span class="template-name">4M Change Notification — 変更通知書</span>
+        <button class="copy-btn" onclick="copyTemplate('tmpl-change-text')">Copy all</button>
+      </div>
+      <div class="template-content" id="tmpl-change-text">
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">Header</div>
+          <div class="tmpl-text">Change Notification No.: <span class="tmpl-fill">[CN-2024-XXX]</span>
+Supplier: <span class="tmpl-fill">[自社名]</span>
+Customer: <span class="tmpl-fill">[顧客名]</span>
+Affected Part No.: <span class="tmpl-fill">[品番]</span>
+Submission Date: <span class="tmpl-fill">[日付]</span>
+Requested Implementation Date: <span class="tmpl-fill">[希望実施日]</span></div>
+        </div>
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">Change Description</div>
+          <div class="tmpl-text">Category of change: <span class="tmpl-fill">[Machine / Method / Material / Man]</span>
+Description of change:
+  Current: <span class="tmpl-fill">[現状の内容]</span>
+  Proposed: <span class="tmpl-fill">[変更後の内容]</span>
+Reason for change: <span class="tmpl-fill">[理由 — 老朽化、タクト改善、コスト等]</span></div>
+        </div>
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">Impact Assessment</div>
+          <div class="tmpl-text">Impact on product quality characteristics: <span class="tmpl-fill">[None / Yes — describe]</span>
+Impact on Control Plan parameters: <span class="tmpl-fill">[None / Yes — CP will be revised]</span>
+Impact on Special Characteristics (SC): <span class="tmpl-fill">[None / Yes — describe]</span>
+Validation plan: <span class="tmpl-fill">[試生産数量・検査内容・判定基準]</span></div>
+        </div>
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">Approval Request</div>
+          <div class="tmpl-text">We kindly request your approval to proceed with the above change.
+Please confirm your decision by <span class="tmpl-fill">[回答期限]</span>.
+
+Contact: <span class="tmpl-fill">[担当者名 / メール / 電話]</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NC Finding -->
+  <div id="tmpl-nc" class="tmpl-view">
+    <div class="template-box">
+      <div class="template-header">
+        <span class="template-name">Audit Finding — Nonconformity (NC)</span>
+        <button class="copy-btn" onclick="copyTemplate('tmpl-nc-text')">Copy all</button>
+      </div>
+      <div class="template-content" id="tmpl-nc-text">
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">Finding Header</div>
+          <div class="tmpl-text">Finding No.: <span class="tmpl-fill">[NC-01]</span>
+Clause Reference: IATF 16949:<span class="tmpl-fill">[条項番号 e.g. 7.1.5.1]</span> / CSR Clause <span class="tmpl-fill">[番号]</span>
+Classification: <span class="tmpl-fill">[Minor / Major]</span> Nonconformity</div>
+        </div>
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">Statement of Nonconformity</div>
+          <div class="tmpl-text">Objective evidence shows that <span class="tmpl-fill">[具体的な事実を記述]</span>.
+
+This does not conform to the requirement of <span class="tmpl-fill">[条項番号]</span>, which states:
+"<span class="tmpl-fill">[該当する条項の要求内容を引用]</span>"</div>
+          <div class="tmpl-note">※ 必ず「Objective evidence shows that」で始め、事実のみを記述する。意見・推測を入れない。</div>
+        </div>
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">Evidence Collected</div>
+          <div class="tmpl-text">- <span class="tmpl-fill">[記録名・文書番号 e.g. Calibration record for gauge #A-012]</span>
+- Interview with <span class="tmpl-fill">[役職・氏名]</span> on <span class="tmpl-fill">[日付]</span>
+- <span class="tmpl-fill">[写真・サンプル等]</span></div>
+        </div>
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">Required Action</div>
+          <div class="tmpl-text">The auditee is required to submit a corrective action plan addressing:
+1. Root cause of the nonconformity
+2. Corrective action to eliminate the root cause
+3. Evidence of implementation
+Due date: <span class="tmpl-fill">[日付 — Minorは30日、Majorは即時〜14日]</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OFI -->
+  <div id="tmpl-ofi" class="tmpl-view">
+    <div class="template-box">
+      <div class="template-header">
+        <span class="template-name">Audit Finding — Opportunity for Improvement (OFI)</span>
+        <button class="copy-btn" onclick="copyTemplate('tmpl-ofi-text')">Copy all</button>
+      </div>
+      <div class="template-content" id="tmpl-ofi-text">
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">OFI Statement</div>
+          <div class="tmpl-text">Finding No.: <span class="tmpl-fill">[OFI-01]</span>
+Area: <span class="tmpl-fill">[該当プロセス・部門]</span>
+
+During the audit, it was observed that <span class="tmpl-fill">[現状の観察事実]</span>.
+
+While this does not constitute a nonconformity, the audit team suggests that <span class="tmpl-fill">[改善の方向性]</span> could further strengthen the effectiveness of the quality management system.</div>
+          <div class="tmpl-note">※ OFIは義務ではない。「suggest / consider / may wish to」などの表現を使う。「shall」は使わない。</div>
+        </div>
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">Potential Benefit</div>
+          <div class="tmpl-text">Implementing this improvement could result in:
+- <span class="tmpl-fill">[期待される効果1]</span>
+- <span class="tmpl-fill">[期待される効果2]</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Email -->
+  <div id="tmpl-email" class="tmpl-view">
+    <div class="template-box">
+      <div class="template-header">
+        <span class="template-name">メール定型文 — 状況別5パターン</span>
+      </div>
+      <div class="template-content">
+
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">① 不具合発生の第一報（24時間以内）</div>
+          <div class="tmpl-text">Subject: [URGENT] Quality Issue Notification — Part No. <span class="tmpl-fill">[品番]</span>
+
+Dear <span class="tmpl-fill">[SQE名]</span>,
+
+We are writing to inform you of a quality issue identified at <span class="tmpl-fill">[発見場所]</span> on <span class="tmpl-fill">[日付]</span>.
+
+Issue summary: <span class="tmpl-fill">[不具合内容を1〜2文で]</span>
+Quantity affected: <span class="tmpl-fill">[数量]</span>
+
+Containment actions have been initiated:
+- <span class="tmpl-fill">[封じ込め処置の内容]</span>
+
+A full 8D report will be submitted by <span class="tmpl-fill">[日付]</span>.
+Please let us know if you require any immediate action.
+
+Best regards,
+<span class="tmpl-fill">[氏名 / 役職 / 連絡先]</span></div>
+        </div>
+
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">② 変更通知の事前確認</div>
+          <div class="tmpl-text">Subject: 4M Change Notification — Prior Approval Request — <span class="tmpl-fill">[品番]</span>
+
+Dear <span class="tmpl-fill">[SQE名]</span>,
+
+We would like to notify you of a planned change and request your prior approval before implementation.
+
+Change summary: <span class="tmpl-fill">[変更内容を1〜2文で]</span>
+Planned implementation date: <span class="tmpl-fill">[日付]</span>
+
+Please find the attached Change Notification Form (CN-<span class="tmpl-fill">[番号]</span>) for your review.
+We kindly request your approval by <span class="tmpl-fill">[回答期限]</span>.
+
+Best regards,
+<span class="tmpl-fill">[氏名 / 役職]</span></div>
+        </div>
+
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">③ CSRの解釈確認（評価済みの上での照会）</div>
+          <div class="tmpl-text">Subject: Clarification Request — CSR Clause <span class="tmpl-fill">[番号]</span> — <span class="tmpl-fill">[品番/案件名]</span>
+
+Dear <span class="tmpl-fill">[SQE名]</span>,
+
+We have reviewed the Customer Specific Requirements (Rev.<span class="tmpl-fill">[版数]</span>) regarding clause <span class="tmpl-fill">[番号]</span>.
+
+Based on our internal assessment, we have concluded that <span class="tmpl-fill">[社内評価の結論]</span>.
+However, as this is a first occurrence of this situation, we would appreciate your confirmation of our interpretation.
+
+Specifically, our question is: <span class="tmpl-fill">[具体的な質問を1文で]</span>
+
+Thank you for your guidance.
+
+Best regards,
+<span class="tmpl-fill">[氏名 / 役職]</span></div>
+        </div>
+
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">④ 監査日程調整</div>
+          <div class="tmpl-text">Subject: Supplier Audit Scheduling — <span class="tmpl-fill">[会社名]</span> — <span class="tmpl-fill">[年月]</span>
+
+Dear <span class="tmpl-fill">[担当者名]</span>,
+
+We would like to schedule a quality system audit at your facility.
+
+Proposed date(s): <span class="tmpl-fill">[第一候補 / 第二候補]</span>
+Scope: <span class="tmpl-fill">[監査範囲 — IATF 16949 / specific processes]</span>
+Duration: Approximately <span class="tmpl-fill">[時間数]</span>
+
+Please confirm your availability or suggest alternative dates.
+We will share the audit plan at least <span class="tmpl-fill">[X]</span> days in advance.
+
+Best regards,
+<span class="tmpl-fill">[氏名 / 役職 / 会社名]</span></div>
+        </div>
+
+        <div class="tmpl-block">
+          <div class="tmpl-block-label">⑤ 是正処置の進捗フォローアップ</div>
+          <div class="tmpl-text">Subject: Follow-up — Corrective Action Status — 8D No. <span class="tmpl-fill">[番号]</span>
+
+Dear <span class="tmpl-fill">[担当者名]</span>,
+
+This is a follow-up regarding the corrective action submitted for the issue reported on <span class="tmpl-fill">[日付]</span>.
+
+According to our records, the following actions are due by <span class="tmpl-fill">[日付]</span>:
+- <span class="tmpl-fill">[アクション内容]</span>
+
+Could you please provide a status update at your earliest convenience?
+
+Best regards,
+<span class="tmpl-fill">[氏名 / 役職]</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ════════════════════════════════════════
+     SECTION 3: FLASHCARDS
+════════════════════════════════════════ -->
+<div id="sec-flash" class="section">
+
+  <p class="section-label">// 04 — phrase internalization — tap card to reveal</p>
+
+  <div class="flash-controls">
+    <button class="flash-cat active" onclick="filterCards('all')">All</button>
+    <button class="flash-cat" onclick="filterCards('audit')">監査フレーズ</button>
+    <button class="flash-cat" onclick="filterCards('ca')">是正処置</button>
+    <button class="flash-cat" onclick="filterCards('change')">変更管理</button>
+    <button class="flash-cat" onclick="filterCards('data')">データ・統計</button>
+    <button class="flash-cat" onclick="shuffleCards()">🔀 Shuffle</button>
+  </div>
+
+  <div class="card-area">
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+    <div class="flashcard" id="flashcard" onclick="toggleReveal()">
+      <span class="card-cat-badge" id="card-cat"></span>
+      <div class="card-front-en" id="card-front"></div>
+      <div class="card-hint">タップして意味を確認</div>
+      <div class="card-back" id="card-back">
+        <div class="card-back-ja" id="back-ja"></div>
+        <div class="card-back-usage" id="back-usage"></div>
+      </div>
+    </div>
+    <div class="card-nav">
+      <button class="nav-btn" id="btn-prev" onclick="prevCard()">← 前へ</button>
+      <span class="card-counter" id="counter">1 / 1</span>
+      <button class="nav-btn" id="btn-next" onclick="nextCard()">次へ →</button>
+    </div>
+    <div class="reveal-hint" id="reveal-status"></div>
+  </div>
+
+</div>
+
+</div><!-- /content -->
+
+<script>
+// ── TAB SWITCHING ──
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('sec-' + name).classList.add('active');
+}
+
+// ── TEMPLATE TABS ──
+function showTmpl(name) {
+  document.querySelectorAll('.tmpl-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tmpl-view').forEach(v => v.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tmpl-' + name).classList.add('active');
+}
+
+// ── COPY ──
+function copyTemplate(id) {
+  const el = document.getElementById(id);
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy all', 1500);
+  });
+}
+
+// ── FLASHCARD DATA ──
+const allCards = [
+  // 監査フレーズ
+  { cat:'audit', en:'Objective evidence shows that...', ja:'客観的証拠によれば…', usage:'NCを記述するときの定番の書き出し。事実のみ、意見は含めない。' },
+  { cat:'audit', en:'This finding is classified as a Minor Nonconformity.', ja:'この所見は軽微な不適合に分類される。', usage:'MajorとMinorの違いは「QMSの崩壊レベルか否か」。' },
+  { cat:'audit', en:'Could you provide objective evidence for this process?', ja:'このプロセスについて客観的証拠を提示していただけますか？', usage:'監査中に証拠を求めるときの標準フレーズ。' },
+  { cat:'audit', en:'This does not conform to clause X.X of IATF 16949.', ja:'これはIATF 16949の条項X.Xに適合していない。', usage:'不適合の根拠条項を明示するパターン。' },
+  { cat:'audit', en:'The audit team observed that...', ja:'監査チームは…を確認した。', usage:'OFIや観察事項を書くときの書き出し。' },
+  { cat:'audit', en:'We would like to verify the effectiveness of the corrective action.', ja:'是正処置の有効性を確認したいと思います。', usage:'フォローアップ監査や書面確認の依頼フレーズ。' },
+  { cat:'audit', en:'No evidence was found to demonstrate compliance with...', ja:'…への適合を実証する証拠が見つからなかった。', usage:'記録がない場合のNCの書き方パターン。' },
+  { cat:'audit', en:'The auditee was unable to provide...', ja:'被監査者は…を提出できなかった。', usage:'証拠提示不能のときの客観的な記述方法。' },
+
+  // 是正処置
+  { cat:'ca', en:'The root cause was identified as...', ja:'根本原因は…と特定された。', usage:'5-Whyで辿り着いた根本原因を記述する定番フレーズ。' },
+  { cat:'ca', en:'Containment actions were completed within 24 hours.', ja:'封じ込め処置は24時間以内に完了した。', usage:'D3の完了報告フレーズ。「within X hours」で時間を明示。' },
+  { cat:'ca', en:'The corrective action has been verified as effective.', ja:'是正処置の有効性が確認された。', usage:'D8クローズ時の確認フレーズ。' },
+  { cat:'ca', en:'Lessons learned have been applied to similar processes.', ja:'得られた教訓を類似工程に水平展開した。', usage:'D7の水平展開報告フレーズ。' },
+  { cat:'ca', en:'The escape cause was identified as insufficient detection control.', ja:'流出原因は検出管理の不十分さと特定された。', usage:'流出根本原因の記述パターン。' },
+  { cat:'ca', en:'Permanent corrective action will be implemented by...', ja:'恒久対策は…までに実施される予定です。', usage:'D5〜D6の実施予定を報告するフレーズ。' },
+  { cat:'ca', en:'The Control Plan and FMEA have been revised accordingly.', ja:'コントロールプランとFMEAを対応して改訂した。', usage:'対策後の文書更新を報告するパターン。' },
+  { cat:'ca', en:'Recurrence of this issue has been prevented by...', ja:'…により本件の再発を防止した。', usage:'再発防止の実績を述べるフレーズ。' },
+
+  // 変更管理
+  { cat:'change', en:'We hereby notify you of a planned change to...', ja:'…への計画的な変更をここに通知します。', usage:'変更通知書の書き出し定番フレーズ。' },
+  { cat:'change', en:'Prior written approval is required before implementation.', ja:'実施前に書面による事前承認が必要です。', usage:'CSRに記載される承認要求の読み方・書き方。' },
+  { cat:'change', en:'The change will have no impact on product quality characteristics.', ja:'この変更は製品の品質特性に影響を与えません。', usage:'影響評価の結論を述べるフレーズ。' },
+  { cat:'change', en:'A validation plan including first article inspection has been prepared.', ja:'初物検査を含む検証計画を準備しました。', usage:'変更通知に添付する検証計画の説明フレーズ。' },
+  { cat:'change', en:'We kindly request your approval by...', ja:'…までにご承認をいただきますようお願い申し上げます。', usage:'回答期限を添えた丁寧な承認依頼。' },
+  { cat:'change', en:'The Control Plan will be revised to reflect this change.', ja:'この変更を反映してコントロールプランを改訂します。', usage:'変更に伴うCP改訂の報告フレーズ。' },
+  { cat:'change', en:'Traceability of parts produced before and after the change is ensured.', ja:'変更前後の製品のトレーサビリティを確保しています。', usage:'新旧品の識別管理を説明するフレーズ。' },
+
+  // データ・統計
+  { cat:'data', en:'The process capability index (Cpk) is 1.45, exceeding the minimum requirement of 1.33.', ja:'工程能力指数（Cpk）は1.45であり、最低要求の1.33を超えている。', usage:'PPAPやサプライヤー評価でのCpk報告パターン。' },
+  { cat:'data', en:'The Gauge R&R result shows %GRR of 8.5%, which is within the acceptable limit of 10%.', ja:'GR&R結果は%GRR 8.5%であり、許容限界10%以内である。', usage:'MSA結果の報告定型文。' },
+  { cat:'data', en:'The AQL inspection level has been changed from Level II to Level III due to recent quality issues.', ja:'最近の品質問題により、AQL検査レベルをレベルIIからレベルIIIに変更した。', usage:'レベル強化の根拠を示すフレーズ。' },
+  { cat:'data', en:'Statistical evidence indicates a shift in the process mean.', ja:'統計的証拠は工程平均のシフトを示している。', usage:'管理図の異常を説明するフレーズ。' },
+  { cat:'data', en:'The sample size was determined based on ANSI/ASQ Z1.4 inspection level II.', ja:'サンプル数はANSI/ASQ Z1.4検査レベルIIに基づいて決定した。', usage:'AQLサンプリング根拠の説明フレーズ。' },
+  { cat:'data', en:'All measurements are traceable to national standards.', ja:'すべての測定値は国家標準にトレーサブルです。', usage:'校正・トレーサビリティの説明フレーズ。' },
+];
+
+let filtered = [...allCards];
+let current = 0;
+let revealed = false;
+
+function filterCards(cat) {
+  document.querySelectorAll('.flash-cat').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  filtered = cat === 'all' ? [...allCards] : allCards.filter(c => c.cat === cat);
+  current = 0;
+  renderCard();
+}
+
+function shuffleCards() {
+  for (let i = filtered.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
+  }
+  current = 0;
+  renderCard();
+}
+
+const catColors = {
+  audit:  { bg:'rgba(91,138,240,0.15)', color:'#7ba5f5', label:'監査' },
+  ca:     { bg:'rgba(255,107,107,0.15)', color:'#ff8a8a', label:'是正処置' },
+  change: { bg:'rgba(245,166,35,0.15)', color:'#f5b84a', label:'変更管理' },
+  data:   { bg:'rgba(62,207,142,0.15)', color:'#5dd6a0', label:'データ' },
+};
+
+function renderCard() {
+  if (!filtered.length) return;
+  const card = filtered[current];
+  const cc = catColors[card.cat];
+  const catEl = document.getElementById('card-cat');
+  catEl.textContent = cc.label;
+  catEl.style.background = cc.bg;
+  catEl.style.color = cc.color;
+  document.getElementById('card-front').textContent = card.en;
+  document.getElementById('back-ja').textContent = card.ja;
+  document.getElementById('back-usage').textContent = '💡 ' + card.usage;
+  document.getElementById('card-back').classList.remove('show');
+  document.getElementById('flashcard').classList.remove('revealed');
+  document.getElementById('counter').textContent = (current + 1) + ' / ' + filtered.length;
+  document.getElementById('progress').style.width = ((current + 1) / filtered.length * 100) + '%';
+  document.getElementById('btn-prev').disabled = current === 0;
+  document.getElementById('btn-next').disabled = current === filtered.length - 1;
+  document.getElementById('reveal-status').textContent = '';
+  revealed = false;
+}
+
+function toggleReveal() {
+  revealed = !revealed;
+  const back = document.getElementById('card-back');
+  const fc = document.getElementById('flashcard');
+  if (revealed) {
+    back.classList.add('show');
+    fc.classList.add('revealed');
+  } else {
+    back.classList.remove('show');
+    fc.classList.remove('revealed');
+  }
+}
+
+function nextCard() {
+  if (current < filtered.length - 1) { current++; renderCard(); }
+}
+
+function prevCard() {
+  if (current > 0) { current--; renderCard(); }
+}
+
+document.addEventListener('keydown', e => {
+  if (document.getElementById('sec-flash').classList.contains('active')) {
+    if (e.key === 'ArrowRight') nextCard();
+    if (e.key === 'ArrowLeft') prevCard();
+    if (e.key === ' ') { e.preventDefault(); toggleReveal(); }
+  }
+});
+
+renderCard();
+</script>
+</body>
+</html>
